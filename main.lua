@@ -98,12 +98,30 @@ function love.load()
 		if (yspec<yblocks-1) then if OwnerGrid[xspec][yspec+1] == self.name then check=true end	end
 		return check
     end
+    
+    --Method for a non-human player to grab some territory
+    function Player.explore (self)
+		local Possibilities = {} --for storing possible pieces of new territory
+    	for i = 0, xblocks-1 do
+			for j = 0, yblocks-1 do
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody") then 
+					table.insert(Possibilities, {i,j})
+				end
+			end
+		end
+		local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
+		self.acquire (self, Choice[1], Choice[2])
+    
+    end
 		
 	--Instantiate the first player
 	mainplayer = Player.new("mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 	mainplayer.control="human"
 	
 	cpu1 = Player.new("cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	for i = 1, 30 do
+	cpu1.explore(cpu1)
+	end
 
  
 end
