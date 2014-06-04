@@ -4,7 +4,7 @@
 function love.load()
 
 	--Time delay between placing blocks
-	grab_delay = 60;
+	grab_delay = 15;
 	--Time delay between stealing blocks
 	steal_delay = 60;
 
@@ -122,7 +122,6 @@ function love.load()
 	for i = 1, 30 do
 	cpu1.explore(cpu1)
 	end
-
  
 end
 
@@ -145,6 +144,20 @@ function love.update(dt)
 			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
 			grabtime=0
 		end
+		
+	-- random walk color routine
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			if (OwnerGrid[i][j]~="nobody") then
+				ColorGrid[i][j][0] = ColorGrid[i][j][0] + love.math.random(-1,1)
+				ColorGrid[i][j][1] = ColorGrid[i][j][1] + love.math.random(-1,1)
+				ColorGrid[i][j][2] = ColorGrid[i][j][2] + love.math.random(-1,1)
+				ColorGrid[i][j][0] = math.min(math.abs(ColorGrid[i][j][0]),255)
+				ColorGrid[i][j][1] = math.min(math.abs(ColorGrid[i][j][1]),255)
+				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			
+			end
+		end
+	end
  
 end
 
