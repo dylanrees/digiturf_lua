@@ -89,7 +89,7 @@ function love.load()
         ColorGrid[xspec][yspec][2] = self.blue
     end
     
-    --Method for checking whether a given time is adjacent to a given player
+    --Method for checking whether a given square is adjacent to a given player
     function  Player.isAdjacent (self, xspec, yspec)
 		local check=false
 		if (xspec>0) then if OwnerGrid[xspec - 1][yspec] == self.name then check=true end end
@@ -145,7 +145,7 @@ function love.update(dt)
 			grabtime=0
 		end
 		
-	-- random walk color routine
+	-- random cell color-changing routine
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
 			if (OwnerGrid[i][j]~="nobody") then
@@ -155,6 +155,22 @@ function love.update(dt)
 				ColorGrid[i][j][0] = math.min(math.abs(ColorGrid[i][j][0]),255)
 				ColorGrid[i][j][1] = math.min(math.abs(ColorGrid[i][j][1]),255)
 				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			
+			end
+		end
+	end
+ 
+	-- random color-mixing routine
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			CPweight=0.01 --dial this up or down to change the strength of the mixing
+			ColorPalette={}; ColorPalette[0]=0; ColorPalette[1]=0; ColorPalette[2]=0
+			ColorPaletteNum=0 --these two variables are for weighted averaging of the colors surrounding a space
+			if (i>0) then if (OwnerGrid[i][j]~="nobody" and OwnerGrid[i-1][j]~="nobody") then ColorPaletteNum=ColorPaletteNum+1; for k=0, 2 do ColorPalette[k]=ColorPalette[k]+ColorGrid[i-1][j][k] end end end
+			if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and OwnerGrid[i+1][j]~="nobody") then ColorPaletteNum=ColorPaletteNum+1; for k=0, 2 do ColorPalette[k]=ColorPalette[k]+ColorGrid[i+1][j][k] end end end
+			if (j>0) then if (OwnerGrid[i][j]~="nobody" and OwnerGrid[i][j-1]~="nobody") then ColorPaletteNum=ColorPaletteNum+1; for k=0, 2 do ColorPalette[k]=ColorPalette[k]+ColorGrid[i][j-1][k] end end end
+			if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and OwnerGrid[i][j+1]~="nobody") then ColorPaletteNum=ColorPaletteNum+1; for k=0, 2 do ColorPalette[k]=ColorPalette[k]+ColorGrid[i][j+1][k] end end end
+			for k=0,2 do
+				ColorGrid[i][j][k]=(ColorGrid[i][j][k]+CPweight*ColorPalette[k])/(CPweight*ColorPaletteNum+1)
 			end
 		end
 	end
