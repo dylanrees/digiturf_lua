@@ -83,7 +83,8 @@ function love.load()
 		ColorGrid[givex][givey][1] = g
 		ColorGrid[givex][givey][2] = b
 		OwnerGrid[givex][givey]=self.name
-		
+		-- variable that is used to handle timing of player land grabs
+		self.grabtime=0
 		return self
 	end
     
@@ -125,9 +126,9 @@ function love.load()
 	mainplayer.control="human"
 	
 	cpu1 = Player.new("cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
-	for i = 1, 30 do
-	cpu1.explore(cpu1)
-	end
+	
+	tony = Player.new("tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+
  
 end
 
@@ -144,16 +145,22 @@ function love.update(dt)
  
 	--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
 	for i = 0, PlayerNumber do
-	--PlayerList[i].explore(PlayerList[i])
+		if (PlayerList[i].grabtime<grab_delay) then PlayerList[i].grabtime=PlayerList[i].grabtime+1 end
+		--PlayerList[i].explore(PlayerList[i])
+	
+		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime==grab_delay and love.math.random(0,8)==1) then
+			PlayerList[i].explore(PlayerList[i])
+		end
+	
 	end
  
 	--routine for main player grabbing new tiles
 	if (love.mouse.isDown("l")==true and 
-		grabtime==grab_delay and 
+		mainplayer.grabtime==grab_delay and 
 		mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and 
 		OwnerGrid[mouse_x][mouse_y]=="nobody") then 
 			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
-			grabtime=0
+			mainplayer.grabtime=0
 	end
 		
 	-- random cell color-changing routine
