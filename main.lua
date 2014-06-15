@@ -58,6 +58,10 @@ function love.load()
 		end
 	end
 	
+	--Initiate the list that will hold all players for indexing
+	PlayerList = {}
+	-- for indexing total number of players
+	PlayerNumber = -1
  
 	--Create the Player object class
 	Player = {}
@@ -65,6 +69,8 @@ function love.load()
 	
 	function Player.new(givename, givex, givey, r, g, b)
 		local self = setmetatable({}, Player)
+		PlayerNumber = PlayerNumber + 1
+		PlayerList[PlayerNumber] = self --update player list with this new player
 		self.red=r 
 		self.green=g  --signifies the color of NEW blocks that enter player ownership
 		self.blue=b 
@@ -109,8 +115,8 @@ function love.load()
 				end
 			end
 		end
-		local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
-		self.acquire (self, Choice[1], Choice[2])
+		if (table.getn(Possibilities)>0) then local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
+		self.acquire (self, Choice[1], Choice[2]) end
     
     end
 		
@@ -136,6 +142,11 @@ function love.update(dt)
 	mouse_x = math.floor(love.mouse.getX()/16)
 	mouse_y = math.floor(love.mouse.getY()/16)
  
+	--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
+	for i = 0, PlayerNumber do
+	--PlayerList[i].explore(PlayerList[i])
+	end
+ 
 	--routine for main player grabbing new tiles
 	if (love.mouse.isDown("l")==true and 
 		grabtime==grab_delay and 
@@ -143,7 +154,7 @@ function love.update(dt)
 		OwnerGrid[mouse_x][mouse_y]=="nobody") then 
 			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
 			grabtime=0
-		end
+	end
 		
 	-- random cell color-changing routine
 	for i = 0, xblocks-1 do
