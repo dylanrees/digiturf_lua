@@ -8,11 +8,6 @@ function love.load()
 	--Time delay between stealing blocks
 	steal_delay = 60;
 
-	--TIMEKEEPING
-	--number of cycles elapsed in game
-	gametime=0
-	--time since human player grabbed sometime
-	grabtime=0
 
 	--Initialize ColorGrid
 	--ColorGrid contains the color in each play cell.  1st and 2nd indices are for position.  
@@ -121,16 +116,55 @@ function love.load()
     
     end
 		
-	--Instantiate the first players
-	mainplayer = Player.new("mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
-	mainplayer.control="human"
-	cpu1 = Player.new("cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
-	tony = Player.new("tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	--Create the Game object class
+	Game = {}
+	Game.__index = Game
+	
+	function Game.new()
+		local self = setmetatable({}, Game)
+		self.gametime=0
+		--number of cycles elapsed in game; for timekeeping
+		
+		--Instantiate the first players
+		mainplayer = Player.new("mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+		mainplayer.control="human"
+		cpu1 = Player.new("cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+		tony = Player.new("tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+		
+		--Load sounds
+		turfsound = love.audio.newSource("turfsound.wav", "static")
+		stealsound = love.audio.newSource("stealsound.wav", "static")
+		enemysound = love.audio.newSource("enemysound.wav", "static")
+		
+		return self
+	end
+	
+	--Create the Title object class
+	Title = {}
+	Title.__index = Title
+	
+	function Title.new()
+		local self = setmetatable({}, Title)
+		self.visible=true
+		-- this is pretty much a placeholder
+		titleImage = love.graphics.newImage("title.png")
+		authorImage = love.graphics.newImage("author.png")
 
-	--Load sounds
-	 turfsound = love.audio.newSource("turfsound.wav", "static")
-	 stealsound = love.audio.newSource("stealsound.wav", "static")
-	 enemysound = love.audio.newSource("enemysound.wav", "static")
+		return self
+	end
+	
+	function Title.showit(self)
+		if (self.visible==true) then
+			love.graphics.draw(titleImage, 192, 128)
+			love.graphics.draw(authorImage, 368, 280)
+		end
+	end 
+	
+	maintitle = Title.new()
+	maingame = Game.new()
+		
+		
+		
  
 end
 
@@ -139,7 +173,7 @@ end
 function love.update(dt)
 
 	--timekeeping
-	gametime=gametime+1
+	maingame.gametime=maingame.gametime+1
 	-- helps with mouse referencing; gives block indices for mouse
 	mouse_x = math.floor(love.mouse.getX()/16)
 	mouse_y = math.floor(love.mouse.getY()/16)
@@ -206,13 +240,14 @@ end
 
 function love.draw()
 
+
 	--shade in all the colors from ColorGrid
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
 			-- aquire box colors
 			love.graphics.setColor( ColorGrid[i][j][0], ColorGrid[i][j][1], ColorGrid[i][j][2], 255 )
 			-- make human player's boxes flash
-			if (math.ceil(gametime/40)-math.floor((gametime-10)/40)==2 and OwnerGrid[i][j]=="mainplayer") then 
+			if (math.ceil(maingame.gametime/40)-math.floor((maingame.gametime-10)/40)==2 and OwnerGrid[i][j]=="mainplayer") then 
 				love.graphics.setColor( (ColorGrid[i][j][0]+3*255)/4, (ColorGrid[i][j][1]+3*255)/4, (ColorGrid[i][j][2]+3*255)/4, 255 )
 			end
 			-- draw box colors
@@ -247,6 +282,8 @@ function love.draw()
 		end
 	end
 
+	--draw the title... when appropriate
+	maintitle.showit(maintitle)
  
 end
  
