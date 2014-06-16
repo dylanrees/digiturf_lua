@@ -102,19 +102,23 @@ function love.load()
     end
     
     --Method for a non-human player to grab some territory
-    function Player.explore (self)
+    function Player.explore (self,steal)
+		self.steal = steal --boolean variable that represents whether stealing territory is okay for this move
 		local Possibilities = {} --for storing possible pieces of new territory
     	for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
-				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody") then 
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody" and self.steal==false) then 
+					table.insert(Possibilities, {i,j})
+				end
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and OwnerGrid[i][j] ~= self and self.steal==true) then 
 					table.insert(Possibilities, {i,j})
 				end
 			end
 		end
 		if (table.getn(Possibilities)>0) then local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
-		self.acquire (self, Choice[1], Choice[2]) end
-    
+		self.acquire (self, Choice[1], Choice[2]) end 
     end
+			
 		
 	--Create the Game object class
 	Game = {}
@@ -160,7 +164,7 @@ function love.load()
 		end
 	end 
 	
-	maintitle = Title.new()
+	--maintitle = Title.new()
 	maingame = Game.new()
 		
 		
@@ -181,10 +185,14 @@ function love.update(dt)
 	--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
 	for i = 0, PlayerNumber do
 		if (PlayerList[i].grabtime<steal_delay) then PlayerList[i].grabtime=PlayerList[i].grabtime+1 end
-		--PlayerList[i].explore(PlayerList[i])
+		
+		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime==steal_delay and love.math.random(0,16)==1) then
+			PlayerList[i].explore(PlayerList[i],false)
+			love.audio.play(enemysound)
+		end
 	
 		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime>=grab_delay and love.math.random(0,8)==1) then
-			PlayerList[i].explore(PlayerList[i])
+			PlayerList[i].explore(PlayerList[i],true)
 			love.audio.play(enemysound)
 		end
 	
@@ -283,7 +291,7 @@ function love.draw()
 	end
 
 	--draw the title... when appropriate
-	maintitle.showit(maintitle)
+	--maintitle.showit(maintitle)
  
 end
  
