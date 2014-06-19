@@ -58,7 +58,7 @@
 				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody" and self.steal==false) then 
 					table.insert(Possibilities, {i,j})
 				end
-				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and OwnerGrid[i][j] ~= self and self.steal==true) then 
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and self.steal==true and OwnerGrid[i][j] ~= self.name) then 
 					table.insert(Possibilities, {i,j})
 				end
 			end

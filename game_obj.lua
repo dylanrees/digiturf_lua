@@ -78,14 +78,16 @@ function Game.UpdateEvent()
 	for i = 0, PlayerNumber do
 		if (PlayerList[i].grabtime<steal_delay) then PlayerList[i].grabtime=PlayerList[i].grabtime+1 end
 		
-		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime==steal_delay and love.math.random(0,16)==1) then
+		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime>=grab_delay) then
 			PlayerList[i].explore(PlayerList[i],false)
 			love.audio.play(enemysound)
+			PlayerList[i].grabtime=0
 		end
 	
-		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime>=grab_delay and love.math.random(0,8)==1) then
+		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime>=steal_delay) then
 			PlayerList[i].explore(PlayerList[i],true)
 			love.audio.play(enemysound)
+			PlayerList[i].grabtime=0
 		end
 	end
  
