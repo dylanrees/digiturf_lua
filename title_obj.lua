@@ -12,12 +12,48 @@ function Title.new()
 	-- this is pretty much a placeholder
 	titleImage = love.graphics.newImage("title.png")
 	authorImage = love.graphics.newImage("author.png")
+	love.graphics.setBackgroundColor(128, 128, 128)
+	self.red1 = 0
+	self.green1 = 0
+	self.blue1 = 255
+	self.red2 = 0
+	self.green2 = 255
+	self.blue2 = 0
 	return self
 end
 
-function Title.showit(self)
+function Title.DrawEvent(self)
 	if (self.visible==true) then
-		love.graphics.draw(titleImage, 192, 128)
-		love.graphics.draw(authorImage, 368, 280)
+
+	--shade in all the colors from ColorGrid
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			-- aquire box colors
+			love.graphics.setColor( ColorGrid[i][j][0], ColorGrid[i][j][1], ColorGrid[i][j][2], 255 )
+			-- draw box colors
+			love.graphics.rectangle("fill", i*16, j*16, 16, 16 )
+		end
 	end
+	
+
+	love.graphics.draw(titleImage, 192, 128)
+	love.graphics.draw(authorImage, 368, 280)
+		
+	end
+end 
+
+function Title.UpdateEvent(self)
+
+		-- random cell color-changing routine
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+				ColorGrid[i][j][0] = ColorGrid[i][j][0] + love.math.random(-1,1)
+				ColorGrid[i][j][1] = ColorGrid[i][j][1] + love.math.random(-1,1)
+				ColorGrid[i][j][2] = ColorGrid[i][j][2] + love.math.random(-1,1)
+				ColorGrid[i][j][0] = math.min(math.abs(ColorGrid[i][j][0]),255)
+				ColorGrid[i][j][1] = math.min(math.abs(ColorGrid[i][j][1]),255)
+				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			
+		end
+	end
+	
 end 

@@ -6,16 +6,16 @@
 Game = {}
 Game.__index = Game
 	
-function Game.new()
+function Game.new(self)
 	local self = setmetatable({}, Game)
 	self.gametime=0
 	--number of cycles elapsed in game; for timekeeping
 		
 	--Instantiate the first players
-	mainplayer = Player.new("mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	mainplayer = Player.new(mainplayer, "mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 	mainplayer.control="human"
-	cpu1 = Player.new("cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
-	tony = Player.new("tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	cpu1 = Player.new(cpu1, "cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	tony = Player.new(cpu1, "tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 		
 	--Load sounds
 	turfsound = love.audio.newSource("turfsound.wav", "static")
@@ -122,7 +122,7 @@ function Game.UpdateEvent()
 		-- random color-mixing routine
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
-			CPweight=0.007 --dial this up or down to change the strength of the mixing
+			CPweight=0.006 --dial this up or down to change the strength of the mixing
 			ColorPalette={}; ColorPalette[0]=0; ColorPalette[1]=0; ColorPalette[2]=0
 			ColorPaletteNum=0 --these two variables are for weighted averaging of the colors surrounding a space
 			if (i>0) then if (OwnerGrid[i][j]~="nobody" and OwnerGrid[i-1][j]~="nobody") then ColorPaletteNum=ColorPaletteNum+1; for k=0, 2 do ColorPalette[k]=ColorPalette[k]+ColorGrid[i-1][j][k] end end end

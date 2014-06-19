@@ -10,7 +10,7 @@
 	Player = {}
 	Player.__index = Player
 
-	function Player.new(givename, givex, givey, r, g, b)
+	function Player.new(self, givename, givex, givey, r, g, b)
 		local self = setmetatable({}, Player)
 		PlayerNumber = PlayerNumber + 1
 		PlayerList[PlayerNumber] = self --update player list with this new player
