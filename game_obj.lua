@@ -58,9 +58,10 @@ function Game.DrawEvent()
 	--DIAGNOSTIC TOOL! Displays territory owner over the block with mouse press
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
-			if (math.floor(love.mouse.getX()/16)==i and math.floor(love.mouse.getY()/16)==j and love.mouse.isDown("l")==true ) then 
+			if (math.floor(love.mouse.getX()/16)==i and math.floor(love.mouse.getY()/16)==j ) then 
 				love.graphics.setColor(255, 255, 255, 128)
-				love.graphics.print(OwnerGrid[i][j],i*16-8,j*16-16)
+				--love.graphics.print(OwnerGrid[i][j],i*16-8,j*16-16)
+				love.graphics.print(mainplayer.MarginalBenefit(mainplayer,i,j),i*16,j*16-8)
 			end	
 		end
 	end
@@ -118,6 +119,17 @@ function Game.UpdateEvent()
 			end
 		end
 	end
+	
+	function Game.GetLandTotal (self) --function to determine how much land is controlled by players in total
+		local counter=0
+		for i=0, xblocks-1 do
+			for j=0, yblocks-1 do
+				if (OwnerGrid[i][j] ~= "nobody") then counter = counter+1 end
+			end
+		end
+		return counter
+	end
+	
 	
 		-- random color-mixing routine
 	for i = 0, xblocks-1 do

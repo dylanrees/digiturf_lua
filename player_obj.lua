@@ -28,6 +28,7 @@
 		OwnerGrid[givex][givey]=self.name
 		-- variable that is used to handle timing of player land grabs
 		self.grabtime=0
+		self.intelligence = 0.3
 		return self
 	end
 	
@@ -51,18 +52,96 @@
     
     --Method for a non-human player to grab some territory
     function Player.explore (self,steal)
-		self.steal = steal --boolean variable that represents whether stealing territory is okay for this move
-		local Possibilities = {} --for storing possible pieces of new territory
+		--self.steal = steal --boolean variable that represents whether stealing territory is okay for this move
+		--local Possibilities = {} --for storing possible pieces of new territory
+    	--for i = 0, xblocks-1 do
+			--for j = 0, yblocks-1 do
+			--	if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody" and self.steal==false) then 
+			--		table.insert(Possibilities, {i,j})
+			--	end
+			--	if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and self.steal==true and OwnerGrid[i][j] ~= self.name) then 
+		--			table.insert(Possibilities, {i,j})
+		--		end
+		--	end
+		--end
+		--if (table.getn(Possibilities)>0) then local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
+		Choice = self.choose(self)
+		self.acquire (self, Choice[1], Choice[2])
+    end
+    
+    -- checked - works!
+    function Player.GetLandExtent (self) --function to determine how much land the player controls
+		local counter=0
+		for i=0, xblocks-1 do
+			for j=0, yblocks-1 do
+				if (OwnerGrid[i][j] == self.name) then counter = counter+1 end
+			end
+		end
+		return counter
+	end
+	
+	-- this was checked - it works!
+	function Player.GetMarginalBorder (self, xpos, ypos) --determines how your border length would change if this tile were claimed
+		local counter = -1
+		if (OwnerGrid[xpos][ypos] ~= self.name and self.isAdjacent(self, xpos, ypos)==true) then
+			local initial = 0
+			local final = 0
+			if (xpos>0 and OwnerGrid[xpos-1][ypos] == self.name) then initial = initial+1 else final = final+1 end
+			if (xpos<xblocks-1 and OwnerGrid[xpos+1][ypos] == self.name) then initial = initial+1 else final = final+1 end
+			if (ypos>0 and OwnerGrid[xpos][ypos-1] == self.name) then initial = initial+1 else final = final+1 end
+			if (ypos<yblocks-1 and OwnerGrid[xpos][ypos+1] == self.name) then initial = initial+1 else final = final+1 end
+			counter =  final - initial
+		end
+		return counter
+	end
+	
+	-- checked - it works!
+	function Player.MarginalBenefit (self, xpos, ypos) --Analyzes the benefit of claiming a given square for player
+		local result = -100
+		local StealVal = 1 --coefficient for the value of stealing territory
+		local TerritoryVal = 1 --coefficient for the value of any new territory
+		local NiceBorderVal = 0.5 --coefficient for the value of reducing overall border surface area
+		if (self.isAdjacent (self, xpos, ypos) and OwnerGrid[xpos][ypos] ~= self.name) then
+			result = TerritoryVal
+			if (OwnerGrid[xpos][ypos] ~= "nobody") then result = result+StealVal end
+			result = result - NiceBorderVal*self.GetMarginalBorder(self, xpos, ypos) + 2
+		end
+		return result
+	end
+	
+    -- Method for using genetic-algorithm inspired A.I. to choose the next move
+    function Player.choose (self)
+    	local Possibilities1 = {} --for storing possible pieces of new territory
     	for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
-				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody" and self.steal==false) then 
-					table.insert(Possibilities, {i,j})
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody") then 
+					table.insert(Possibilities1, {i,j})
 				end
-				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and self.steal==true and OwnerGrid[i][j] ~= self.name) then 
-					table.insert(Possibilities, {i,j})
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and OwnerGrid[i][j] ~= self.name) then 
+					table.insert(Possibilities1, {i,j})
 				end
 			end
 		end
-		if (table.getn(Possibilities)>0) then local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
-		self.acquire (self, Choice[1], Choice[2]) end 
+		local Possibilities2 = {} --for storing possibilities after fitness + intelligence vetting
+		local MinOption = 100
+		local MinOptionIndex = -1
+		local MaxOption = -100
+		local MaxOptionIndex = -1
+		for i=1, table.getn(Possibilities1) do
+			if (self.MarginalBenefit(self, Possibilities1[i][1], Possibilities1[i][2])<MinOption) then 
+				MinOptionIndex = i
+				MinOption = self.MarginalBenefit(self, Possibilities1[i][1], Possibilities1[i][2])
+			end
+			if (self.MarginalBenefit(self, Possibilities1[i][1], Possibilities1[i][2])>MaxOption) then 
+				MaxOptionIndex = i 
+				MaxOption = self.MarginalBenefit(self, Possibilities1[i][1], Possibilities1[i][2])
+			end
+		end
+		local pivot = (MaxOption-MinOption)*self.intelligence+MinOption
+		for i=1, table.getn(Possibilities1) do
+			if (self.MarginalBenefit(self, Possibilities1[i][1], Possibilities1[i][2])>= pivot) then --pivot
+				table.insert(Possibilities2, Possibilities1[i])
+			end
+		end
+		return Possibilities2[love.math.random(1,table.getn(Possibilities2))]
     end
