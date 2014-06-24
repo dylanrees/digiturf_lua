@@ -28,7 +28,10 @@
 		OwnerGrid[givex][givey]=self.name
 		-- variable that is used to handle timing of player land grabs
 		self.grabtime=0
-		self.intelligence = 0.3
+		self.intelligence = 0.5
+		self.StealVal = 0.5+love.math.random(1,10)/10 --coefficient for the value of stealing territory
+		self.TerritoryVal = 0.5+love.math.random(1,10)/10 --coefficient for the value of any new territory
+		self.NiceBorderVal = 0.1+love.math.random(1,10)/10 --coefficient for the value of reducing overall border surface area
 		return self
 	end
 	
@@ -98,13 +101,10 @@
 	-- checked - it works!
 	function Player.MarginalBenefit (self, xpos, ypos) --Analyzes the benefit of claiming a given square for player
 		local result = -100
-		local StealVal = 1 --coefficient for the value of stealing territory
-		local TerritoryVal = 1 --coefficient for the value of any new territory
-		local NiceBorderVal = 0.5 --coefficient for the value of reducing overall border surface area
 		if (self.isAdjacent (self, xpos, ypos) and OwnerGrid[xpos][ypos] ~= self.name) then
-			result = TerritoryVal
-			if (OwnerGrid[xpos][ypos] ~= "nobody") then result = result+StealVal end
-			result = result - NiceBorderVal*self.GetMarginalBorder(self, xpos, ypos) + 2
+			result = self.TerritoryVal
+			if (OwnerGrid[xpos][ypos] ~= "nobody") then result = result+self.StealVal end
+			result = result - self.NiceBorderVal*self.GetMarginalBorder(self, xpos, ypos) + 2
 		end
 		return result
 	end

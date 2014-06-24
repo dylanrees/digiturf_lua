@@ -1,3 +1,11 @@
+BIG IDEA CACHE
+
+There should be some variation in the ease with which you can capture territory.  Maybe the system should be redesigned
+so that the player has a "points meter" that continually fills, so they can either continually grab territory or
+do it in short sprees.  There should be some protection for small players to that having your territory isn't the end
+of the world.
+
+
 ONGOING DESIGN STUFF
 
 When a territory "rebels" and declares independence, it shows up as a spreading
