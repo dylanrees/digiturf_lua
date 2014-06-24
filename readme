@@ -1,0 +1,36 @@
+ONGOING DESIGN STUFF
+
+When a territory "rebels" and declares independence, it shows up as a spreading
+wave of random coloration within a territory, followed by a white flash, an
+exploding sound, and the creation of new borders.
+
+
+FITNESS FUNCTION
+
+The way the AI works is that each NPC has a fitness function that computes
+total fitness of the player based on a series of factors:
+
+1.) Ratio of total surface area to volume of the player's territory
+2.) Color variation in the player's territory
+3.) Total number of squares the player controls
+4.) Total number of squares the opponents control
+
+The player does a survey of the entire board, flags all spaces that, if claimed,
+would increase the fitness of the player, picks one, and does it.
+
+As players spawn other players, the new players inherit their fitness functions
+from the old ones.  Small tweaks are made to the coefficients in front of each
+of the factors in the fitness function.  The "intelligence" is also tweaked
+up or down.
+
+If intelligence is at 100%, that player will always choose the move that
+maximizes its fitness function.  If it's at 0%, that player will choose
+a random legal move.  If it's at X%, the player will from chose from a list of
+all moves that have an effect on the fitness function that is more that X% of the way between
+the worst move and the best move. 
+
+Credits:
+
+Design and programming by Dylan Rees
+Sound effects created using as3sfxr (http://www.superflashbros.net/as3sfxr/)
+Coding done using Geany (http://www.geany.org/)
