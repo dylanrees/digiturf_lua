@@ -5,6 +5,37 @@ so that the player has a "points meter" that continually fills, so they can eith
 do it in short sprees.  There should be some protection for small players to that having your territory isn't the end
 of the world.
 
+Types of hazard tiles: There are both "earth" tiles and "other" tiles.
+
+EARTH TILES
+	Grassland: Easy to claim or steal, fairly color-stable
+	Water: Impassable.
+	Forest: Moderate difficulty to claim or steal.  Fairly color-stable.
+	Mountain: Difficult to claim or steal.  Moderate color stability.
+	Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
+	Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
+
+SPACE TILES
+	Lava: Impassable.  Chance of depopulation nearby.
+	Cave: Chance of depopulate.  Chance of spawning a new player.
+
+OTHER TILES
+	Chaos Tiles: Impassable.  Greatly increase stability.
+	Vanishing Land: Land that vanishes after a set period of time.
+	Vanishing Water: The opposite of vanishing land.
+ 	Nuke Tiles: At either a fixed or random interval, they will explode and clear ownership of nearby tiles
+	Radioactive Tiles: Rapidly depopulate.
+	Stronghold Tiles: Very hard to steal!
+
+Possible Alternate Game Modes:
+	Castle: Once a player's stronghold is captured, that's the end of them.
+	Breeder:    Engineer an NPC for maximum success! Earn gene points that let you tweak it.
+	Multiplayer: If enough folks like the game.
+	Capture the Flag: Capture enemy "flag" territories!
+	Strongholds: Basically Domination from Unreal Tournament.
+	Alliances: Different countries have the ability to form and break partnerships.
+	Serpent: You capture territory fast but you continually depopulate.
+	
 
 ONGOING DESIGN STUFF
 

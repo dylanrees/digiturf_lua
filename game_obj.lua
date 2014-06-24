@@ -17,10 +17,23 @@ function Game.new(self)
 	cpu1 = Player.new(cpu1, "cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 	tony = Player.new(cpu1, "tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 		
+	--Instantiate some water and chaos
+	for i = 0, xblocks-1 do
+		HazardGrid[i][yblocks-2] = "water"
+		HazardGrid[i][yblocks-1] = "water"
+	end	
+	for j = 0, yblocks-1 do
+		HazardGrid[xblocks-1][j] = "chaos"
+	end
+		
 	--Load sounds
 	turfsound = love.audio.newSource("turfsound.wav", "static")
 	stealsound = love.audio.newSource("stealsound.wav", "static")
 	enemysound = love.audio.newSource("enemysound.wav", "static")
+	
+	--Load images
+	waterImage = love.graphics.newImage("water_tile.png")
+	chaosImage = love.graphics.newImage("chaos_tile.png")
 		
 		
 	return self
@@ -63,6 +76,14 @@ function Game.DrawEvent()
 				--love.graphics.print(OwnerGrid[i][j],i*16-8,j*16-16)
 				love.graphics.print(mainplayer.MarginalBenefit(mainplayer,i,j),i*16,j*16-8)
 			end	
+		end
+	end
+
+	--HAZARD-DRAWING!
+	for i = 0, xblocks-1 do
+		for j=0, yblocks-1 do
+			if (HazardGrid[i][j] == "water") then love.graphics.draw(waterImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "chaos") then love.graphics.draw(chaosImage, i*16, j*16) end
 		end
 	end
 end
