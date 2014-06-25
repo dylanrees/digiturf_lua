@@ -14,8 +14,8 @@ function Game.new(self)
 	--Instantiate the first players
 	mainplayer = Player.new(mainplayer, "mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 	mainplayer.control="human"
-	cpu1 = Player.new(cpu1, "cpu1", 20, 21, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
-	tony = Player.new(cpu1, "tony", 30, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	cpu1 = Player.new(cpu1, "cpu1", 25, 35, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	tony = Player.new(cpu1, "tony", 45, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 		
 	--Instantiate some water and chaos
 	for i = 0, xblocks-1 do
@@ -90,6 +90,8 @@ end
 
 function Game.UpdateEvent()
 
+	maingame.HazardUpdate()
+
 	--timekeeping
 	maingame.gametime=maingame.gametime+1
 	-- helps with mouse referencing; gives block indices for mouse
@@ -115,12 +117,12 @@ function Game.UpdateEvent()
  
  	--routine for main player grabbing new tiles
 	if (love.mouse.isDown("l")==true) then 
-		if (mainplayer.grabtime>=grab_delay and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody") then
+		if (mainplayer.grabtime>=grab_delay and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
 			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
 			mainplayer.grabtime=0
 			love.audio.play(turfsound)
 		end
-		if (mainplayer.grabtime==steal_delay and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]~="nobody" and OwnerGrid[mouse_x][mouse_y]~="mainplayer") then
+		if (mainplayer.grabtime==steal_delay and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]~="nobody" and OwnerGrid[mouse_x][mouse_y]~="mainplayer" and IsSolid(mouse_x,mouse_y)==false) then
 			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
 			mainplayer.grabtime=0
 			love.audio.play(stealsound)
@@ -164,6 +166,23 @@ function Game.UpdateEvent()
 			if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and OwnerGrid[i][j+1]~="nobody") then ColorPaletteNum=ColorPaletteNum+1; for k=0, 2 do ColorPalette[k]=ColorPalette[k]+ColorGrid[i][j+1][k] end end end
 			for k=0,2 do
 				ColorGrid[i][j][k]=(ColorGrid[i][j][k]+CPweight*ColorPalette[k])/(CPweight*ColorPaletteNum+1)
+			end
+		end
+	end
+
+end
+
+function Game.HazardUpdate()
+
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			if (OwnerGrid[i][j]~="nobody" and (HazardGrid[i+1][j] == "chaos" or HazardGrid[i-1][j] == "chaos" or HazardGrid[i][j-1] == "chaos" or HazardGrid[i][j+1] == "chaos")) then
+				ColorGrid[i][j][0] = ColorGrid[i][j][0] + love.math.random(-8,8)
+				ColorGrid[i][j][1] = ColorGrid[i][j][1] + love.math.random(-8,8)
+				ColorGrid[i][j][2] = ColorGrid[i][j][2] + love.math.random(-8,8)
+				ColorGrid[i][j][0] = math.min(math.abs(ColorGrid[i][j][0]),255)
+				ColorGrid[i][j][1] = math.min(math.abs(ColorGrid[i][j][1]),255)
+				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			
 			end
 		end
 	end

@@ -3,6 +3,7 @@ function love.load()
 require("player_obj")
 require("game_obj")
 require("title_obj")
+require("misc_functions")
 	
 maintitle = Title.new()
 		

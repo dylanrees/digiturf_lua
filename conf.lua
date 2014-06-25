@@ -46,6 +46,7 @@ for i = 0, xblocks-1 do
 		HazardGrid[i][j] = "nothing"
 	end
 end
+
 	
 --Initialize CleaveGrid
 --HazardGrid keeps track of which spaces are about to cleave in two

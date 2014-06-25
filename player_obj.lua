@@ -55,19 +55,6 @@
     
     --Method for a non-human player to grab some territory
     function Player.explore (self,steal)
-		--self.steal = steal --boolean variable that represents whether stealing territory is okay for this move
-		--local Possibilities = {} --for storing possible pieces of new territory
-    	--for i = 0, xblocks-1 do
-			--for j = 0, yblocks-1 do
-			--	if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody" and self.steal==false) then 
-			--		table.insert(Possibilities, {i,j})
-			--	end
-			--	if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and self.steal==true and OwnerGrid[i][j] ~= self.name) then 
-		--			table.insert(Possibilities, {i,j})
-		--		end
-		--	end
-		--end
-		--if (table.getn(Possibilities)>0) then local Choice = Possibilities[love.math.random(1,table.getn(Possibilities))]
 		Choice = self.choose(self)
 		self.acquire (self, Choice[1], Choice[2])
     end
@@ -114,10 +101,10 @@
     	local Possibilities1 = {} --for storing possible pieces of new territory
     	for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
-				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody") then 
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] == "nobody" and IsSolid(i,j) == false) then 
 					table.insert(Possibilities1, {i,j})
 				end
-				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and OwnerGrid[i][j] ~= self.name) then 
+				if (self.isAdjacent(self,i,j)==true and OwnerGrid[i][j] ~= "nobody" and OwnerGrid[i][j] ~= self.name and IsSolid(i,j) == false) then 
 					table.insert(Possibilities1, {i,j})
 				end
 			end
