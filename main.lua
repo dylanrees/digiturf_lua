@@ -14,6 +14,7 @@ enemysound = love.audio.newSource("enemysound.wav", "static")
 waterImage = love.graphics.newImage("water_tile.png")
 chaosImage = love.graphics.newImage("chaos_tile.png")
 lavaImage = love.graphics.newImage("lava_tile.png")
+radioactiveImage = love.graphics.newImage("radioactive_tile.png")
 	
 maintitle = Title.new()
 		

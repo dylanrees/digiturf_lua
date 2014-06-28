@@ -1,3 +1,8 @@
+FINAL NAME
+
+home.turf
+
+
 BIG IDEA CACHE
 
 There should be some variation in the ease with which you can capture territory.  Maybe the system should be redesigned
@@ -5,26 +10,26 @@ so that the player has a "points meter" that continually fills, so they can eith
 do it in short sprees.  There should be some protection for small players to that having your territory isn't the end
 of the world.
 
-Types of hazard tiles: There are both "earth" tiles and "other" tiles.
+Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means implemented)
 
 EARTH TILES
 	Grassland: Easy to claim or steal, fairly color-stable
-	Water: Impassable.
+       *Water: Impassable.
 	Forest: Moderate difficulty to claim or steal.  Fairly color-stable.
 	Mountain: Difficult to claim or steal.  Moderate color stability.
 	Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
 	Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
 
 SPACE TILES
-	Lava: Impassable.  Chance of depopulation nearby.
+       *Lava: Impassable.  Chance of depopulation nearby.
 	Cave: Chance of depopulate.  Chance of spawning a new player.
 
 OTHER TILES
-	Chaos Tiles: Impassable.  Greatly increase stability.
+       *Chaos Tiles: Impassable.  Greatly increase stability.
 	Vanishing Land: Land that vanishes after a set period of time.
 	Vanishing Water: The opposite of vanishing land.
  	Nuke Tiles: At either a fixed or random interval, they will explode and clear ownership of nearby tiles
-	Radioactive Tiles: Rapidly depopulate.
+       *Radioactive Tiles: Rapidly depopulate.
 	Stronghold Tiles: Very hard to steal!
 
 Possible Alternate Game Modes:

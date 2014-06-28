@@ -28,6 +28,9 @@ function Game.new(self)
 	for j = 0, yblocks-1 do
 		HazardGrid[0][j] = "lava"
 	end
+	for i = 0, xblocks-1 do
+		HazardGrid[i][1] = "radioactive"
+	end
 		
 	return self
 end
@@ -78,6 +81,7 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "water") then love.graphics.draw(waterImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "chaos") then love.graphics.draw(chaosImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "lava") then love.graphics.draw(lavaImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "radioactive") then love.graphics.draw(radioactiveImage, i*16, j*16) end
 		end
 	end
 end
@@ -190,7 +194,10 @@ function Game.HazardUpdate()
 			if (OwnerGrid[i][j]~="nobody" and ((j>0 and GetDepop(i,j-1) > 0)) and DeathDieRoll<=GetDepop(i,j-1)) then
 				depop(i,j)
 			end
-			if (OwnerGrid[i][j]~="nobody" and ((j<yblocks-1 and GetDepop(i,j+1) > 0)) and DeathDieRoll<=GetDepop(i+1,j+1)) then
+			if (OwnerGrid[i][j]~="nobody" and ((j<yblocks-1 and GetDepop(i,j+1) > 0)) and DeathDieRoll<=GetDepop(i,j+1)) then
+				depop(i,j)
+			end
+			if (OwnerGrid[i][j]~="nobody" and ((GetDepop(i,j) > 0)) and DeathDieRoll<=GetDepop(i,j)) then
 				depop(i,j)
 			end
 		end
