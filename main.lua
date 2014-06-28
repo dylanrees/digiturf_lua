@@ -4,6 +4,16 @@ require("player_obj")
 require("game_obj")
 require("title_obj")
 require("misc_functions")
+
+--Load sounds
+turfsound = love.audio.newSource("turfsound.wav", "static")
+stealsound = love.audio.newSource("stealsound.wav", "static")
+enemysound = love.audio.newSource("enemysound.wav", "static")
+	
+--Load images
+waterImage = love.graphics.newImage("water_tile.png")
+chaosImage = love.graphics.newImage("chaos_tile.png")
+lavaImage = love.graphics.newImage("lava_tile.png")
 	
 maintitle = Title.new()
 		

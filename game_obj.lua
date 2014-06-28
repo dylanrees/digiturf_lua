@@ -25,16 +25,9 @@ function Game.new(self)
 	for j = 0, yblocks-1 do
 		HazardGrid[xblocks-1][j] = "chaos"
 	end
-		
-	--Load sounds
-	turfsound = love.audio.newSource("turfsound.wav", "static")
-	stealsound = love.audio.newSource("stealsound.wav", "static")
-	enemysound = love.audio.newSource("enemysound.wav", "static")
-	
-	--Load images
-	waterImage = love.graphics.newImage("water_tile.png")
-	chaosImage = love.graphics.newImage("chaos_tile.png")
-		
+	for j = 0, yblocks-1 do
+		HazardGrid[0][j] = "lava"
+	end
 		
 	return self
 end
@@ -84,6 +77,7 @@ function Game.DrawEvent()
 		for j=0, yblocks-1 do
 			if (HazardGrid[i][j] == "water") then love.graphics.draw(waterImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "chaos") then love.graphics.draw(chaosImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "lava") then love.graphics.draw(lavaImage, i*16, j*16) end
 		end
 	end
 end
@@ -176,7 +170,8 @@ function Game.HazardUpdate()
 
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
-			if (OwnerGrid[i][j]~="nobody" and (HazardGrid[i+1][j] == "chaos" or HazardGrid[i-1][j] == "chaos" or HazardGrid[i][j-1] == "chaos" or HazardGrid[i][j+1] == "chaos")) then
+			-- chaos block effect that changes tile colors a lot
+			if (OwnerGrid[i][j]~="nobody" and ((i<xblocks-1 and HazardGrid[i+1][j] == "chaos") or (i>0 and HazardGrid[i-1][j] == "chaos") or (j>0 and HazardGrid[i][j-1] == "chaos") or (j<yblocks-1 and HazardGrid[i][j+1] == "chaos"))) then
 				ColorGrid[i][j][0] = ColorGrid[i][j][0] + love.math.random(-8,8)
 				ColorGrid[i][j][1] = ColorGrid[i][j][1] + love.math.random(-8,8)
 				ColorGrid[i][j][2] = ColorGrid[i][j][2] + love.math.random(-8,8)
@@ -184,7 +179,20 @@ function Game.HazardUpdate()
 				ColorGrid[i][j][1] = math.min(math.abs(ColorGrid[i][j][1]),255)
 				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			
 			end
+			-- depopulation effect (like lava)
+			local DeathDieRoll = love.math.random(1,10000)
+			if (OwnerGrid[i][j]~="nobody" and ((i<xblocks-1 and GetDepop(i+1,j) > 0)) and DeathDieRoll<=GetDepop(i+1,j)) then
+				depop(i,j)
+			end
+			if (OwnerGrid[i][j]~="nobody" and ((i>0 and GetDepop(i-1,j) > 0)) and DeathDieRoll<=GetDepop(i-1,j)) then
+				depop(i,j)
+			end
+			if (OwnerGrid[i][j]~="nobody" and ((j>0 and GetDepop(i,j-1) > 0)) and DeathDieRoll<=GetDepop(i,j-1)) then
+				depop(i,j)
+			end
+			if (OwnerGrid[i][j]~="nobody" and ((j<yblocks-1 and GetDepop(i,j+1) > 0)) and DeathDieRoll<=GetDepop(i+1,j+1)) then
+				depop(i,j)
+			end
 		end
 	end
-
 end
