@@ -31,6 +31,11 @@ function Game.new(self)
 	for i = 0, xblocks-1 do
 		HazardGrid[i][1] = "radioactive"
 	end
+	for i=20, 30 do
+		for j=20,30 do
+			HazardGrid[i][j] = "forest"
+		end
+	end
 		
 	return self
 end
@@ -82,6 +87,7 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "chaos") then love.graphics.draw(chaosImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "lava") then love.graphics.draw(lavaImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "radioactive") then love.graphics.draw(radioactiveImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "forest") then love.graphics.draw(forestImage, i*16, j*16) end
 		end
 	end
 end
@@ -115,7 +121,7 @@ function Game.UpdateEvent()
  
  	--routine for main player grabbing new tiles
 	if (love.mouse.isDown("l")==true) then 
-		if (mainplayer.grabtime>=grab_delay and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
+		if (mainplayer.grabtime>=GetGrabCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
 			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
 			mainplayer.grabtime=0
 			love.audio.play(turfsound)
@@ -131,9 +137,9 @@ function Game.UpdateEvent()
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
 			if (OwnerGrid[i][j]~="nobody") then
-				ColorGrid[i][j][0] = ColorGrid[i][j][0] + love.math.random(-1,1)
-				ColorGrid[i][j][1] = ColorGrid[i][j][1] + love.math.random(-1,1)
-				ColorGrid[i][j][2] = ColorGrid[i][j][2] + love.math.random(-1,1)
+				ColorGrid[i][j][0] = ColorGrid[i][j][0] + GetStability(i,j)*love.math.random(-1,1)
+				ColorGrid[i][j][1] = ColorGrid[i][j][1] + GetStability(i,j)*love.math.random(-1,1)
+				ColorGrid[i][j][2] = ColorGrid[i][j][2] + GetStability(i,j)*love.math.random(-1,1)
 				ColorGrid[i][j][0] = math.min(math.abs(ColorGrid[i][j][0]),255)
 				ColorGrid[i][j][1] = math.min(math.abs(ColorGrid[i][j][1]),255)
 				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			

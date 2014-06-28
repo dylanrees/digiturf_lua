@@ -59,7 +59,6 @@
 		self.acquire (self, Choice[1], Choice[2])
     end
     
-    -- checked - works!
     function Player.GetLandExtent (self) --function to determine how much land the player controls
 		local counter=0
 		for i=0, xblocks-1 do
@@ -70,7 +69,6 @@
 		return counter
 	end
 	
-	-- this was checked - it works!
 	function Player.GetMarginalBorder (self, xpos, ypos) --determines how your border length would change if this tile were claimed
 		local counter = -1
 		if (OwnerGrid[xpos][ypos] ~= self.name and self.isAdjacent(self, xpos, ypos)==true) then
@@ -85,7 +83,6 @@
 		return counter
 	end
 	
-	-- checked - it works!
 	function Player.MarginalBenefit (self, xpos, ypos) --Analyzes the benefit of claiming a given square for player
 		local result = -100
 		if (self.isAdjacent (self, xpos, ypos) and OwnerGrid[xpos][ypos] ~= self.name) then

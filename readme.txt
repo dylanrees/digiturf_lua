@@ -15,7 +15,7 @@ Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means
 EARTH TILES
 	Grassland: Easy to claim or steal, fairly color-stable
        *Water: Impassable.
-	Forest: Moderate difficulty to claim or steal.  Fairly color-stable.
+       *Forest: Moderate difficulty to claim or steal.  Fairly color-stable.
 	Mountain: Difficult to claim or steal.  Moderate color stability.
 	Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
 	Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
