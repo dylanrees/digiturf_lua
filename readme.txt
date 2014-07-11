@@ -10,7 +10,7 @@ so that the player has a "points meter" that continually fills, so they can eith
 do it in short sprees.  There should be some protection for small players to that having your territory isn't the end
 of the world.
 
-Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means implemented)
+Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means implemented, # means implementable with script)
 
 EARTH TILES
 	Grassland: Easy to claim or steal, fairly color-stable
@@ -26,11 +26,14 @@ SPACE TILES
 
 OTHER TILES
        *Chaos Tiles: Impassable.  Greatly increase stability.
-	Vanishing Land: Land that vanishes after a set period of time.
-	Vanishing Water: The opposite of vanishing land.
+       #Vanishing Land: Land that vanishes after a set period of time. 
+       #Vanishing Water: The opposite of vanishing land.
  	Nuke Tiles: At either a fixed or random interval, they will explode and clear ownership of nearby tiles
        *Radioactive Tiles: Rapidly depopulate.
 	Stronghold Tiles: Very hard to steal!
+	Skull Territories: Depopulate so rapidly that they're effectively no-man's lands!
+	Flags and Gates: Capture a flag and open the corresponding colored gate.
+	Darkness/Light Tiles: Tend to make all nearby territory black/white.
 
 Possible Alternate Game Modes:
 	Castle: Once a player's stronghold is captured, that's the end of them.
@@ -77,6 +80,37 @@ a random legal move.  If it's at X%, the player will from chose from a list of
 all moves that have an effect on the fitness function that is more that X% of the way between
 the worst move and the best move. 
 
+LEVEL EDITOR
+
+The game has an in-game level editor that allows you to create maps quite easily.
+The format used to save created levels is the same format used to save and load games.
+
+The format consists of
+* a title line
+* a description line
+* a tile value field that basically uses a specific ASCII character for each tile type.
+	Each tile value is a string with one tile ID character, one player ID number, and a 9-digit number identifying color.
+* A list of players and the "player ID" number for each one
+
+* It may be possible to encrypt the levels as well.
+
+LEVEL SCRIPTING
+
+If possible, maybe invent some kind of basic scripting language for the game
+that allows the player to create more event-based maps.  Try to implement all
+of your game modes in the scripting language.
+
+Going along with this, you have "event tiles" that use custom player-made images.
+You can program what they do.
+
+
+FLAGS
+
+Every player flies a flag that they are assigned, made out of a handful of common attributes.  It takes up one
+of their territory's squares and becomes transparent if the mouse hovers over it.  A child territory that breaks 
+off of a mother territory will generally adopt the mother territory's flag, but with a couple of changes.
+A merged territory will randomly combine attributes of the flags of the parent territories to make its flag.
+
 CREDITS:
 
 Design and programming by Dylan Rees
@@ -88,5 +122,7 @@ Coding done in Geany
 Special thanks to the Lua and Love2D teams!  
 	http://www.lua.org/ 
 	https://love2d.org/
+Special thanks to OpenGameArt
+	http://www.opengameart.org
 Also special thanks to GameJolt!
 	http://www.gamejolt.com

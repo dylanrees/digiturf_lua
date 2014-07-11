@@ -5,7 +5,7 @@ xblocks = 50
 yblocks = 40
 
 t.window.width = xblocks*16
-t.window.height = yblocks*16
+t.window.height = yblocks*16+32
     
 --Time delay between placing blocks
 grab_delay = 15;

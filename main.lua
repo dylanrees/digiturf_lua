@@ -29,7 +29,7 @@ function love.update(dt)
 		for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
 				for k = 0, 2 do
-					ColorGrid[i][j][k] = 100
+					ColorGrid[i][j][k] = 50
 				end
 			end
 		end	

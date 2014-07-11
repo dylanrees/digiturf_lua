@@ -26,8 +26,8 @@
 		ColorGrid[givex][givey][1] = g
 		ColorGrid[givex][givey][2] = b
 		OwnerGrid[givex][givey]=self.name
-		-- variable that is used to handle timing of player land grabs
-		self.grabtime=0
+		self.actionpoints=0 --these are spent on land grabs and other actions
+		self.maxactionpoints=100 --top of the chart
 		self.intelligence = 0.5
 		self.StealVal = 0.5+love.math.random(1,10)/10 --coefficient for the value of stealing territory
 		self.TerritoryVal = 0.5+love.math.random(1,10)/10 --coefficient for the value of any new territory
@@ -54,9 +54,19 @@
     end
     
     --Method for a non-human player to grab some territory
-    function Player.explore (self,steal)
+    function Player.explore (self)
+		local Results = {}
+		Results[0]=999
 		Choice = self.choose(self)
-		self.acquire (self, Choice[1], Choice[2])
+		Results[1]=Choice[1]
+		Results[2]=Choice[2]
+		if (OwnerGrid[Choice[1]][Choice[2]] == "nobody") then 
+			Results[0] = GetGrabCost(Choice[1], Choice[2])
+		else 
+			Results[0] = GetStealCost(Choice[1], Choice[2])
+		end
+		return Results
+		--self.acquire (self, Choice[1], Choice[2])
     end
     
     function Player.GetLandExtent (self) --function to determine how much land the player controls

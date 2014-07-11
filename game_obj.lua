@@ -41,6 +41,16 @@ function Game.new(self)
 end
 	
 function Game.DrawEvent()	
+
+	--event for drawing the HUD underneath
+	love.graphics.setColor( 0, 0, 0, 255 )
+	love.graphics.rectangle("fill", 0, yblocks*16, xblocks*16, 32 )
+	love.graphics.setColor( 128, 128, 128, 255 )
+	love.graphics.rectangle("fill", 32, yblocks*16+8, 128, 16 )
+	love.graphics.print("Action Points",162,yblocks*16+10)
+	love.graphics.setColor( 215, 128, 128, 255 )
+	love.graphics.rectangle("fill", 32, yblocks*16+8, 128*mainplayer.actionpoints/mainplayer.maxactionpoints, 16 )
+
 	--shade in all the colors from ColorGrid
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
@@ -104,34 +114,30 @@ function Game.UpdateEvent()
 	
 		--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
 	for i = 0, PlayerNumber do
-		if (PlayerList[i].grabtime<steal_delay) then PlayerList[i].grabtime=PlayerList[i].grabtime+1 end
+		if (PlayerList[i].actionpoints<PlayerList[i].maxactionpoints) then PlayerList[i].actionpoints=PlayerList[i].actionpoints+1 end
 		
-		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime>=grab_delay) then
-			PlayerList[i].explore(PlayerList[i],false)
-			love.audio.play(enemysound)
-			PlayerList[i].grabtime=0
-		end
-	
-		if (PlayerList[i]~=mainplayer and PlayerList[i].grabtime>=steal_delay) then
-			PlayerList[i].explore(PlayerList[i],true)
-			love.audio.play(enemysound)
-			PlayerList[i].grabtime=0
+		if (PlayerList[i]~=mainplayer) then -- this routine is for NPCs
+			ExploreResults = PlayerList[i].explore(PlayerList[i])
+			if (PlayerList[i].actionpoints>=ExploreResults[0]) then 
+				PlayerList[i].actionpoints=PlayerList[i].actionpoints-ExploreResults[0]
+				PlayerList[i].acquire(PlayerList[i], ExploreResults[1], ExploreResults[2])
+			end	
+		else								-- this routine is for the human player
+			if (love.mouse.isDown("l")==true) then 
+				if (mainplayer.actionpoints>=GetGrabCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
+					mainplayer.acquire(mainplayer,mouse_x,mouse_y)
+					mainplayer.actionpoints=mainplayer.actionpoints-GetGrabCost(mouse_x,mouse_y)
+					love.audio.play(turfsound)
+				end
+				if (mainplayer.actionpoints>=GetStealCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]~="nobody" and OwnerGrid[mouse_x][mouse_y]~="mainplayer" and IsSolid(mouse_x,mouse_y)==false) then
+					mainplayer.acquire(mainplayer,mouse_x,mouse_y)
+					mainplayer.actionpoints=mainplayer.actionpoints-GetStealCost(mouse_x,mouse_y)
+					love.audio.play(stealsound)
+				end
+			end
 		end
 	end
  
- 	--routine for main player grabbing new tiles
-	if (love.mouse.isDown("l")==true) then 
-		if (mainplayer.grabtime>=GetGrabCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
-			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
-			mainplayer.grabtime=0
-			love.audio.play(turfsound)
-		end
-		if (mainplayer.grabtime==steal_delay and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]~="nobody" and OwnerGrid[mouse_x][mouse_y]~="mainplayer" and IsSolid(mouse_x,mouse_y)==false) then
-			mainplayer.acquire(mainplayer,mouse_x,mouse_y)
-			mainplayer.grabtime=0
-			love.audio.play(stealsound)
-		end
-	end
 	
 		-- random cell color-changing routine
 	for i = 0, xblocks-1 do
