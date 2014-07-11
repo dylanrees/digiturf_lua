@@ -13,11 +13,11 @@ of the world.
 Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means implemented, # means implementable with script)
 
 EARTH TILES
-	Grassland: Easy to claim or steal, fairly color-stable
+       *Grassland: Easy to claim or steal, fairly color-stable
        *Water: Impassable.
        *Forest: Moderate difficulty to claim or steal.  Fairly color-stable.
-	Mountain: Difficult to claim or steal.  Moderate color stability.
-	Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
+       *Mountain: Difficult to claim or steal.  Moderate color stability.
+       *Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
 	Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
 
 SPACE TILES
@@ -33,7 +33,8 @@ OTHER TILES
 	Stronghold Tiles: Very hard to steal!
 	Skull Territories: Depopulate so rapidly that they're effectively no-man's lands!
 	Flags and Gates: Capture a flag and open the corresponding colored gate.
-	Darkness/Light Tiles: Tend to make all nearby territory black/white.
+	Darkness Tiles: The dark version of Light Tiles.
+       *Light Tiles: Tend to make all nearby territory black/white.
 
 Possible Alternate Game Modes:
 	Castle: Once a player's stronghold is captured, that's the end of them.

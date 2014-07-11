@@ -36,6 +36,26 @@ function Game.new(self)
 			HazardGrid[i][j] = "forest"
 		end
 	end
+	for i=12, 18 do
+		for j=12,18 do
+			HazardGrid[i][j] = "mountain"
+		end
+	end
+	for i=32, 38 do
+		for j=32,38 do
+			HazardGrid[i][j] = "grassland"
+		end
+	end
+	for i=4, 10 do
+		for j=20,25 do
+			HazardGrid[i][j] = "desert"
+		end
+	end
+	for i=34, 40 do
+		for j=20,25 do
+			HazardGrid[i][j] = "light"
+		end
+	end
 		
 	return self
 end
@@ -98,6 +118,10 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "lava") then love.graphics.draw(lavaImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "radioactive") then love.graphics.draw(radioactiveImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "forest") then love.graphics.draw(forestImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "mountain") then love.graphics.draw(mountainImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "grassland") then love.graphics.draw(grasslandImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "desert") then love.graphics.draw(desertImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "light") then love.graphics.draw(lightImage, i*16, j*16) end
 		end
 	end
 end
@@ -179,6 +203,21 @@ function Game.UpdateEvent()
 			end
 		end
 	end
+
+		-- light tile effect
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			lightening = 0
+			if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="light") then lightening = lightening + love.math.random(5)/20 end end
+			if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="light") then lightening = lightening + love.math.random(5)/20 end end
+			if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="light") then lightening = lightening + love.math.random(5)/20 end end
+			if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="light") then lightening = lightening + love.math.random(5)/20 end end
+			ColorGrid[i][j][0] = ColorGrid[i][j][0] + lightening
+			ColorGrid[i][j][1] = ColorGrid[i][j][1] + lightening
+			ColorGrid[i][j][2] = ColorGrid[i][j][2] + lightening
+		end
+	end
+
 
 end
 

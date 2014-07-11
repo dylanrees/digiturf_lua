@@ -16,6 +16,10 @@ chaosImage = love.graphics.newImage("chaos_tile.png")
 lavaImage = love.graphics.newImage("lava_tile.png")
 radioactiveImage = love.graphics.newImage("radioactive_tile.png")
 forestImage = love.graphics.newImage("forest_tile.png")
+mountainImage = love.graphics.newImage("mountain_tile.png")
+grasslandImage = love.graphics.newImage("grassland_tile.png")
+desertImage = love.graphics.newImage("desert_tile.png")
+lightImage = love.graphics.newImage("light_tile.png")
 	
 maintitle = Title.new()
 		
