@@ -1,31 +1,38 @@
-FINAL NAME
+home.turf design doc
+last major revision 7/14/14 by dylan
 
-home.turf
+==FINAL NAME OPTIONS==
+*digiturf
+*home.turf
 
+==TILES==
+*make the final game tiles black and white to that only the players' colors matter.
+*make them nice and pixelly
 
-BIG IDEA CACHE
+==REBELLION==
+When a territory is rebel-flagged, its rebel value increases by one.  When it gets high enough, REBELLION.
 
-Sorting Rules
+When a territory "rebels" and declares independence, it shows up as a spreading
+wave of random coloration within a territory, followed by a white flash, an
+exploding sound, and the creation of new borders.
 
-Based on "stability ranking", which is standard deviation (or avg variation) of color in a square
-
-FIRST OPTION:
-If stability ranking gets above a certain point,
-the square that deviates most from the player's main color
-does its own capture routine of all squares that are sufficiently similar in color.
-If this is a large enough number, it becomes a territory.
-
-
-MERGER RULES
+==MERGING==
 If two players gain enough territory by merging without sacrificing a lot of stability ranking,
 they merge.
 
-An "action point booster" item.
+==MISC.==
+*An "action point booster" item.
 
-There should be some variation in the ease with which you can capture territory.  Maybe the system should be redesigned
-so that the player has a "points meter" that continually fills, so they can either continually grab territory or
-do it in short sprees.  There should be some protection for small players to that having your territory isn't the end
-of the world.
+==GAME MODES==
+	Castle: Once a player's stronghold is captured, that's the end of them.
+	Breeder:    Engineer an NPC for maximum success! Earn gene points that let you tweak it.
+	Multiplayer: If enough folks like the game.
+	Capture the Flag: Capture enemy "flag" territories!
+	Strongholds: Basically Domination from Unreal Tournament.
+	Alliances: Different countries have the ability to form and break partnerships.
+	Serpent: You capture territory fast but you continually depopulate.
+
+==HAZARDS==
 
 Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means implemented, # means implementable with script)
 
@@ -53,23 +60,8 @@ OTHER TILES
 	Darkness Tiles: The dark version of Light Tiles.
        *Light Tiles: Tend to make all nearby territory black/white.
 
-Possible Alternate Game Modes:
-	Castle: Once a player's stronghold is captured, that's the end of them.
-	Breeder:    Engineer an NPC for maximum success! Earn gene points that let you tweak it.
-	Multiplayer: If enough folks like the game.
-	Capture the Flag: Capture enemy "flag" territories!
-	Strongholds: Basically Domination from Unreal Tournament.
-	Alliances: Different countries have the ability to form and break partnerships.
-	Serpent: You capture territory fast but you continually depopulate.
-	
 
-ONGOING DESIGN STUFF
-
-When a territory "rebels" and declares independence, it shows up as a spreading
-wave of random coloration within a territory, followed by a white flash, an
-exploding sound, and the creation of new borders.
-
-FITNESS FUNCTION
+==FITNESS FUNCTION==
 
 The way the AI works is that each NPC has a fitness function that computes
 total fitness of the player based on a series of factors:
@@ -98,7 +90,7 @@ a random legal move.  If it's at X%, the player will from chose from a list of
 all moves that have an effect on the fitness function that is more that X% of the way between
 the worst move and the best move. 
 
-LEVEL EDITOR
+==LEVEL EDITOR==
 
 The game has an in-game level editor that allows you to create maps quite easily.
 The format used to save created levels is the same format used to save and load games.
@@ -112,7 +104,7 @@ The format consists of
 
 * It may be possible to encrypt the levels as well.
 
-LEVEL SCRIPTING
+==LEVEL SCRIPTING==
 
 If possible, maybe invent some kind of basic scripting language for the game
 that allows the player to create more event-based maps.  Try to implement all
@@ -122,14 +114,14 @@ Going along with this, you have "event tiles" that use custom player-made images
 You can program what they do.
 
 
-FLAGS
+==FLAGS==
 
 Every player flies a flag that they are assigned, made out of a handful of common attributes.  It takes up one
 of their territory's squares and becomes transparent if the mouse hovers over it.  A child territory that breaks 
 off of a mother territory will generally adopt the mother territory's flag, but with a couple of changes.
 A merged territory will randomly combine attributes of the flags of the parent territories to make its flag.
 
-CREDITS:
+==CREDITS==
 
 Design and programming by Dylan Rees
 

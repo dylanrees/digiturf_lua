@@ -43,6 +43,7 @@
 		ColorGrid[xspec][yspec][0] = self.red
         ColorGrid[xspec][yspec][1] = self.green
         ColorGrid[xspec][yspec][2] = self.blue
+        RebelGrid[xspec][yspec] = 0
     end
 
     --Method for checking whether a given square is adjacent to a given player
@@ -172,7 +173,7 @@
 
     function Player.GetRebelLocus (self) --returns square in the territory that is farthest from mean color
     	local myland = {}
-    	local meancolor = {}; meancolor[0]=0; meancolor[1]=0; meancolor[2]=0
+    	meancolor = {}; meancolor[0]=0; meancolor[1]=0; meancolor[2]=0
     	local landcounter = 0
 		for i=0, xblocks-1 do
 			for j=0, yblocks-1 do
@@ -192,12 +193,22 @@
 		for i=1, table.getn(myland) do
 			variation1 = math.abs(meancolor[0]-ColorGrid[myland[i][1]][myland[i][2]][0]) + math.abs(meancolor[1]-ColorGrid[myland[i][1]][myland[i][2]][1]) + math.abs(meancolor[2]-ColorGrid[myland[i][1]][myland[i][2]][2])
 			variation2 = math.abs(meancolor[0]-ColorGrid[choice[1]][choice[2]][0]) + math.abs(meancolor[1]-ColorGrid[choice[1]][choice[2]][1]) + math.abs(meancolor[2]-ColorGrid[choice[1]][choice[2]][2])
-			if (variation1>=variation2) then choice = myland[i] end
+			if ((variation1>=variation2 and variation1>=12) or variation1>42) then choice = myland[i] end
 		end
 		return choice
     end
 
-	function Player.RebellionCheck(self) --checks to see whether a rebellion should happen
+	function Player.RebellionSort(self) --checks to see whether a rebellion should happen
+		local locus = self.GetRebelLocus(self)
+		RebelColors = {} ; RebelColors[0] = ColorGrid[locus[1]][locus[2]][0] ; RebelColors[1] = ColorGrid[locus[1]][locus[2]][1] ; RebelColors[2] = ColorGrid[locus[1]][locus[2]][2]
+		for i = 0, xblocks-1 do
+			for j = 0, yblocks-1 do
+				local DiffToMain = math.abs(ColorGrid[i][j][0] - meancolor[0]) + math.abs(ColorGrid[i][j][1] - meancolor[1]) + math.abs(ColorGrid[i][j][2] - meancolor[2])
+				local DiffToLocus = math.abs(ColorGrid[i][j][0] - RebelColors[0]) + math.abs(ColorGrid[i][j][1] - RebelColors[1]) + math.abs(ColorGrid[i][j][2] - RebelColors[2])
+				if (DiffToMain>=DiffToLocus) then RebelGrid[i][j] = RebelGrid[i][j]+0.5 else RebelGrid[i][j] = math.max(RebelGrid[i][j]-1,0) end
+			end
+		end
+		return RebelGrid
+	end	
+
 	
-	
-	end

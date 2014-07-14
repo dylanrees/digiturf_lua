@@ -58,7 +58,17 @@ for i = 0, xblocks-1 do
 	end
 end		
     
+
+
+RebelGrid = {}
+	for i=0, xblocks-1 do
+	RebelGrid[i] = {}
+	for j=0, yblocks-1 do
+		RebelGrid[i][j] = 0
+	end
 end
 
+
+end --end of the config
 
 		
