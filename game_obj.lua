@@ -126,15 +126,16 @@ function Game.DrawEvent()
 		end
 	end
 
-	--DIAGNOSTIC TOOL!  Draw markers for the "rebel territories"
+	--Draw flags for the "rebel territories"
 	for k = 0, PlayerNumber do
 		RebelGrid = PlayerList[k].RebellionSort(PlayerList[k])
 		for i = 0, xblocks-1 do
 			for j=0, yblocks-1 do
-				love.graphics.setColor( math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), 255 )
-				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 1) then
-					love.graphics.rectangle("fill", i*16+4, j*16+4, 8, 8 )	
-				end
+				--love.graphics.setColor( math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), 255 )
+				love.graphics.setColor(255,255,255,255)
+				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 10) then love.graphics.draw(flag_green, i*16, j*16) end
+				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 20) then love.graphics.draw(flag_yellow, i*16, j*16) end
+				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 30) then love.graphics.draw(flag_red, i*16, j*16) end
 			end
 		end
 	end

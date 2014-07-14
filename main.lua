@@ -20,6 +20,11 @@ mountainImage = love.graphics.newImage("mountain_tile.png")
 grasslandImage = love.graphics.newImage("grassland_tile.png")
 desertImage = love.graphics.newImage("desert_tile.png")
 lightImage = love.graphics.newImage("light_tile.png")
+--flags
+flag_green = love.graphics.newImage("flag_green.png")
+flag_yellow = love.graphics.newImage("flag_yellow.png")
+flag_red = love.graphics.newImage("flag_red.png")
+
 	
 maintitle = Title.new()
 		

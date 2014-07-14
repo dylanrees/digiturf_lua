@@ -16,9 +16,18 @@ When a territory "rebels" and declares independence, it shows up as a spreading
 wave of random coloration within a territory, followed by a white flash, an
 exploding sound, and the creation of new borders.
 
+The rebelling territories should be marked by "rebel flags" in green, yellow and red
+
 ==MERGING==
 If two players gain enough territory by merging without sacrificing a lot of stability ranking,
 they merge.
+
+==TRENCHES AND EMBASSIES
+Any player may sacrifice a piece of territory to make a Trench.  A Trench is a non-owned territory that is very 
+hard to capture and prevents color-mixing.
+
+Any player may also create an Embassy at a territory adjacent to another territory.  Embassies provide color-mixing for both
+ENTIRE territories, so that both become more similar in color.
 
 ==MISC.==
 *An "action point booster" item.
