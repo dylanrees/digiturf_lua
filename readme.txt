@@ -5,6 +5,23 @@ home.turf
 
 BIG IDEA CACHE
 
+Sorting Rules
+
+Based on "stability ranking", which is standard deviation (or avg variation) of color in a square
+
+FIRST OPTION:
+If stability ranking gets above a certain point,
+the square that deviates most from the player's main color
+does its own capture routine of all squares that are sufficiently similar in color.
+If this is a large enough number, it becomes a territory.
+
+
+MERGER RULES
+If two players gain enough territory by merging without sacrificing a lot of stability ranking,
+they merge.
+
+An "action point booster" item.
+
 There should be some variation in the ease with which you can capture territory.  Maybe the system should be redesigned
 so that the player has a "points meter" that continually fills, so they can either continually grab territory or
 do it in short sprees.  There should be some protection for small players to that having your territory isn't the end

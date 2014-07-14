@@ -104,8 +104,8 @@ function Game.DrawEvent()
 		for j = 0, yblocks-1 do
 			if (math.floor(love.mouse.getX()/16)==i and math.floor(love.mouse.getY()/16)==j ) then 
 				love.graphics.setColor(255, 255, 255, 128)
-				--love.graphics.print(OwnerGrid[i][j],i*16-8,j*16-16)
-				love.graphics.print(mainplayer.MarginalBenefit(mainplayer,i,j),i*16,j*16-8)
+				love.graphics.print("(" .. mainplayer.GetRebelLocus(mainplayer)[1] .. "," .. mainplayer.GetRebelLocus(mainplayer)[2] .. ")",i*16,j*16-8)
+					--love.graphics.print(mainplayer.GetRebelLocus(mainplayer),i*16,j*16)
 			end	
 		end
 	end
@@ -235,7 +235,7 @@ function Game.HazardUpdate()
 				ColorGrid[i][j][2] = math.min(math.abs(ColorGrid[i][j][2]),255)			
 			end
 			-- depopulation effect (like lava)
-			local DeathDieRoll = love.math.random(1,10000)
+			local DeathDieRoll = love.math.random(1,400000)
 			if (OwnerGrid[i][j]~="nobody" and ((i<xblocks-1 and GetDepop(i+1,j) > 0)) and DeathDieRoll<=GetDepop(i+1,j)) then
 				depop(i,j)
 			end

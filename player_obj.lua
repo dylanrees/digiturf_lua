@@ -32,6 +32,8 @@
 		self.StealVal = 0.5+love.math.random(1,10)/10 --coefficient for the value of stealing territory
 		self.TerritoryVal = 0.5+love.math.random(1,10)/10 --coefficient for the value of any new territory
 		self.NiceBorderVal = 0.1+love.math.random(1,10)/10 --coefficient for the value of reducing overall border surface area
+		self.QuickGrabBonus = love.math.random(1,10)/10 --bonus assigned to squares with a lower grab cost than default
+		self.QuickStealBonus = love.math.random(1,10)/10 --bonus assigned to squares with a higher steal cost than default
 		return self
 	end
 	
@@ -98,7 +100,7 @@
 		if (self.isAdjacent (self, xpos, ypos) and OwnerGrid[xpos][ypos] ~= self.name) then
 			result = self.TerritoryVal
 			if (OwnerGrid[xpos][ypos] ~= "nobody") then result = result+self.StealVal end
-			result = result - self.NiceBorderVal*self.GetMarginalBorder(self, xpos, ypos) + 2
+			result = result - 0.5*self.NiceBorderVal*self.GetMarginalBorder(self, xpos, ypos) + 2 - self.QuickGrabBonus*(15-GetGrabCost(xpos,ypos))/15 -self.QuickStealBonus*(GetStealCost(xpos,ypos)-60)/60
 		end
 		return result
 	end
@@ -139,3 +141,63 @@
 		end
 		return Possibilities2[love.math.random(1,table.getn(Possibilities2))]
     end
+    
+    --REBELLION-RELATED STUFF DOWN HERE.
+    
+    function Player.GetRebelRanking (self) --monitors color variation in a player's territory for rebellion purposes
+    	local myland = {}
+    	local meancolor = {}; meancolor[0]=0; meancolor[1]=0; meancolor[2]=0
+    	local landcounter = 0
+		for i=0, xblocks-1 do
+			for j=0, yblocks-1 do
+				if (OwnerGrid[i][j] == self.name) then 
+					landcounter = landcounter + 1
+					table.insert(myland, {i,j})
+					meancolor[0] = meancolor[0] + ColorGrid[i][j][0]
+					meancolor[1] = meancolor[1] + ColorGrid[i][j][1]
+					meancolor[2] = meancolor[2] + ColorGrid[i][j][2]
+				end
+			end
+		end
+		meancolor[0] = meancolor[0]/landcounter
+		meancolor[1] = meancolor[1]/landcounter
+		meancolor[2] = meancolor[2]/landcounter
+		local variation = 0
+		for i=1, table.getn(myland) do
+			variation = variation + math.abs(meancolor[0]-ColorGrid[myland[i][1]][myland[i][2]][0]) + math.abs(meancolor[1]-ColorGrid[myland[i][1]][myland[i][2]][1]) + math.abs(meancolor[2]-ColorGrid[myland[i][1]][myland[i][2]][2])
+		end
+		result = variation/landcounter
+		return result
+    end
+
+    function Player.GetRebelLocus (self) --returns square in the territory that is farthest from mean color
+    	local myland = {}
+    	local meancolor = {}; meancolor[0]=0; meancolor[1]=0; meancolor[2]=0
+    	local landcounter = 0
+		for i=0, xblocks-1 do
+			for j=0, yblocks-1 do
+				if (OwnerGrid[i][j] == self.name) then 
+					landcounter = landcounter + 1
+					table.insert(myland, {i,j})
+					meancolor[0] = meancolor[0] + ColorGrid[i][j][0]
+					meancolor[1] = meancolor[1] + ColorGrid[i][j][1]
+					meancolor[2] = meancolor[2] + ColorGrid[i][j][2]
+				end
+			end
+		end
+		meancolor[0] = meancolor[0]/landcounter
+		meancolor[1] = meancolor[1]/landcounter
+		meancolor[2] = meancolor[2]/landcounter
+		local choice = myland[1]; local variation1 = 0; local variation2 = 0
+		for i=1, table.getn(myland) do
+			variation1 = math.abs(meancolor[0]-ColorGrid[myland[i][1]][myland[i][2]][0]) + math.abs(meancolor[1]-ColorGrid[myland[i][1]][myland[i][2]][1]) + math.abs(meancolor[2]-ColorGrid[myland[i][1]][myland[i][2]][2])
+			variation2 = math.abs(meancolor[0]-ColorGrid[choice[1]][choice[2]][0]) + math.abs(meancolor[1]-ColorGrid[choice[1]][choice[2]][1]) + math.abs(meancolor[2]-ColorGrid[choice[1]][choice[2]][2])
+			if (variation1>=variation2) then choice = myland[i] end
+		end
+		return choice
+    end
+
+	function Player.RebellionCheck(self) --checks to see whether a rebellion should happen
+	
+	
+	end
