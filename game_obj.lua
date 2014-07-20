@@ -12,10 +12,10 @@ function Game.new(self)
 	--number of cycles elapsed in game; for timekeeping
 		
 	--Instantiate the first players
-	mainplayer = Player.new(mainplayer, "mainplayer", 4, 4, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	mainplayer = Player.new(mainplayer, "mainplayer", love.math.random(xblocks-1), love.math.random(xblocks-1), love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
 	mainplayer.control="human"
-	cpu1 = Player.new(cpu1, "cpu1", 25, 35, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
-	tony = Player.new(cpu1, "tony", 45, 8, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	self.CreateAnonPlayer(love.math.random(xblocks-1),math.random(yblocks-1), math.random(0,255), math.random(0,255), math.random(0,255))
+	self.CreateAnonPlayer(love.math.random(xblocks-1),math.random(yblocks-1), math.random(0,255), math.random(0,255), math.random(0,255))
 		
 	--Instantiate some water and chaos
 	for i = 0, xblocks-1 do
@@ -57,6 +57,8 @@ function Game.new(self)
 		end
 	end
 		
+		HazardGrid[5][15] = "cave"
+		
 	return self
 end
 	
@@ -84,6 +86,7 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "grassland") then love.graphics.draw(grasslandImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "desert") then love.graphics.draw(desertImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "light") then love.graphics.draw(lightImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "cave") then love.graphics.draw(caveImage, i*16, j*16) end
 		end
 	end
 
@@ -223,7 +226,7 @@ function Game.UpdateEvent()
 	
 
 
-		-- light tile effect
+	-- light tile effect
 	for i = 0, xblocks-1 do
 		for j = 0, yblocks-1 do
 			lightening = 0
@@ -237,6 +240,16 @@ function Game.UpdateEvent()
 		end
 	end
 
+
+	--cave effect
+	--for i = 0, xblocks-1 do
+	--	for j = 0, yblocks-1 do
+	--		if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+	--		if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+	--		if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+	--		if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+	--	end
+	--end
 
 end
 
@@ -272,4 +285,10 @@ function Game.HazardUpdate()
 			end
 		end
 	end
+end
+
+function Game.CreateAnonPlayer(xpos,ypos,red,green,blue) --creates a new NPC player at given position and gives it an automatic name
+local name = "player" .. table.getn(PlayerList)
+local makeplayer = Player.new(makeplayer, name, xpos, ypos, red, green, blue)
+return makeplayer
 end
