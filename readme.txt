@@ -43,6 +43,8 @@ ENTIRE territories, so that both become more similar in color.
 
 ==HAZARDS==
 
+Give these hazards an NES-like tileset and figure out how to use tilesets.
+
 Types of hazard tiles: There are both "earth" tiles and "other" tiles.  (* means implemented, # means implementable with script)
 
 EARTH TILES

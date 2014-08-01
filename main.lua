@@ -10,7 +10,7 @@ turfsound = love.audio.newSource("turfsound.wav", "static")
 stealsound = love.audio.newSource("stealsound.wav", "static")
 enemysound = love.audio.newSource("enemysound.wav", "static")
 	
---Load images
+--Load greyscale images
 waterImage = love.graphics.newImage("water_tile.png")
 chaosImage = love.graphics.newImage("chaos_tile.png")
 lavaImage = love.graphics.newImage("lava_tile.png")
@@ -21,6 +21,15 @@ grasslandImage = love.graphics.newImage("grassland_tile.png")
 desertImage = love.graphics.newImage("desert_tile.png")
 lightImage = love.graphics.newImage("light_tile.png")
 caveImage = love.graphics.newImage("cave_tile.png")
+
+--Load color images
+grasslandImageColor = love.graphics.newImage("grassland_tile_color.png")
+forestImageColor = love.graphics.newImage("forest_tile_color.png")
+desertImageColor = love.graphics.newImage("desert_tile_color.png")
+mountainImageColor = love.graphics.newImage("mountain_tile_color.png")
+radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
+
+
 --flags
 flag_green = love.graphics.newImage("flag_green.png")
 flag_yellow = love.graphics.newImage("flag_yellow.png")

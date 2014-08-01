@@ -12,12 +12,18 @@ function Game.new(self)
 	--number of cycles elapsed in game; for timekeeping
 		
 	--Instantiate the first players
-	mainplayer = Player.new(mainplayer, "mainplayer", love.math.random(xblocks-1), love.math.random(xblocks-1), love.math.random(0,255), love.math.random(0,255), love.math.random(0,255))
+	-- Note: This mainplayer construct will throw a weird error if it's called wrong
+	mainplayer = Player.new(mainplayer, "mainplayer", 15, 15, 0, 128, 200)
 	mainplayer.control="human"
-	self.CreateAnonPlayer(love.math.random(xblocks-1),math.random(yblocks-1), math.random(0,255), math.random(0,255), math.random(0,255))
-	self.CreateAnonPlayer(love.math.random(xblocks-1),math.random(yblocks-1), math.random(0,255), math.random(0,255), math.random(0,255))
+	self.CreateAnonPlayer(math.floor(love.math.random(xblocks-1)),math.floor(love.math.random(yblocks-1)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)))
+	self.CreateAnonPlayer(math.floor(love.math.random(xblocks-1)),math.floor(love.math.random(yblocks-1)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)))
 		
 	--Instantiate some water and chaos
+	for i=0, xblocks-1 do
+		for j=0, yblocks-1 do
+			HazardGrid[i][j] = "grassland"
+		end
+	end
 	for i = 0, xblocks-1 do
 		HazardGrid[i][yblocks-2] = "water"
 		HazardGrid[i][yblocks-1] = "water"
@@ -41,11 +47,6 @@ function Game.new(self)
 			HazardGrid[i][j] = "mountain"
 		end
 	end
-	for i=32, 38 do
-		for j=32,38 do
-			HazardGrid[i][j] = "grassland"
-		end
-	end
 	for i=4, 10 do
 		for j=20,25 do
 			HazardGrid[i][j] = "desert"
@@ -57,7 +58,7 @@ function Game.new(self)
 		end
 	end
 		
-		HazardGrid[5][15] = "cave"
+		--HazardGrid[5][15] = "cave"
 		
 	return self
 end
@@ -80,11 +81,11 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "water") then love.graphics.draw(waterImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "chaos") then love.graphics.draw(chaosImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "lava") then love.graphics.draw(lavaImage, i*16, j*16) end
-			if (HazardGrid[i][j] == "radioactive") then love.graphics.draw(radioactiveImage, i*16, j*16) end
-			if (HazardGrid[i][j] == "forest") then love.graphics.draw(forestImage, i*16, j*16) end
-			if (HazardGrid[i][j] == "mountain") then love.graphics.draw(mountainImage, i*16, j*16) end
-			if (HazardGrid[i][j] == "grassland") then love.graphics.draw(grasslandImage, i*16, j*16) end
-			if (HazardGrid[i][j] == "desert") then love.graphics.draw(desertImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "radioactive") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(radioactiveImageColor, i*16, j*16) else love.graphics.draw(radioactiveImage, i*16, j*16) end end
+			if (HazardGrid[i][j] == "forest") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(forestImageColor, i*16, j*16) else love.graphics.draw(forestImage, i*16, j*16) end end
+			if (HazardGrid[i][j] == "mountain") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(mountainImageColor, i*16, j*16) else love.graphics.draw(mountainImage, i*16, j*16) end end
+			if (HazardGrid[i][j] == "grassland") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(grasslandImageColor, i*16, j*16) else love.graphics.draw(grasslandImage, i*16, j*16) end end
+			if (HazardGrid[i][j] == "desert") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(desertImageColor, i*16, j*16) else love.graphics.draw(desertImage, i*16, j*16) end end
 			if (HazardGrid[i][j] == "light") then love.graphics.draw(lightImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "cave") then love.graphics.draw(caveImage, i*16, j*16) end
 		end
@@ -100,7 +101,7 @@ function Game.DrawEvent()
 				love.graphics.setColor( (ColorGrid[i][j][0]+3*255)/4, (ColorGrid[i][j][1]+3*255)/4, (ColorGrid[i][j][2]+3*255)/4, 255 )
 			end
 			-- draw box colors
-			love.graphics.rectangle("fill", i*16, j*16, 16, 16 )
+			if (OwnerGrid[i][j] ~= "nobody") then love.graphics.rectangle("fill", i*16, j*16, 16, 16 ) end
 		end
 	end
 	
@@ -131,14 +132,16 @@ function Game.DrawEvent()
 
 	--Draw flags for the "rebel territories"
 	for k = 0, PlayerNumber do
-		RebelGrid = PlayerList[k].RebellionSort(PlayerList[k])
-		for i = 0, xblocks-1 do
-			for j=0, yblocks-1 do
-				--love.graphics.setColor( math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), 255 )
-				love.graphics.setColor(255,255,255,255)
-				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 10) then love.graphics.draw(flag_green, i*16, j*16) end
-				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 20) then love.graphics.draw(flag_yellow, i*16, j*16) end
-				if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 30) then love.graphics.draw(flag_red, i*16, j*16) end
+		if (PlayerList[k].alive==1) then --only do for each player if they're activated
+			RebelGrid = PlayerList[k].RebellionSort(PlayerList[k])
+			for i = 0, xblocks-1 do
+				for j=0, yblocks-1 do
+					--love.graphics.setColor( math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), 255 )
+					love.graphics.setColor(255,255,255,255)
+					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 10) then love.graphics.draw(flag_green, i*16, j*16) end
+					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 20) then love.graphics.draw(flag_yellow, i*16, j*16) end
+					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 30) then love.graphics.draw(flag_red, i*16, j*16) end
+				end
 			end
 		end
 	end
@@ -158,30 +161,33 @@ function Game.UpdateEvent()
 	
 		--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
 	for i = 0, PlayerNumber do
-		if (PlayerList[i].actionpoints<PlayerList[i].maxactionpoints) then PlayerList[i].actionpoints=PlayerList[i].actionpoints+1 end
+		if (PlayerList[i].alive ==1) then --only perform these actions if the player is activated.
+			if (PlayerList[i].actionpoints<PlayerList[i].maxactionpoints) then PlayerList[i].actionpoints=PlayerList[i].actionpoints+1 end
 		
-		if (PlayerList[i]~=mainplayer) then -- this routine is for NPCs
-			ExploreResults = PlayerList[i].explore(PlayerList[i])
-			if (PlayerList[i].actionpoints>=ExploreResults[0]) then 
-				PlayerList[i].actionpoints=PlayerList[i].actionpoints-ExploreResults[0]
-				PlayerList[i].acquire(PlayerList[i], ExploreResults[1], ExploreResults[2])
-			end	
-		else								-- this routine is for the human player
-			if (love.mouse.isDown("l")==true) then 
-				if (mainplayer.actionpoints>=GetGrabCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
-					mainplayer.acquire(mainplayer,mouse_x,mouse_y)
-					mainplayer.actionpoints=mainplayer.actionpoints-GetGrabCost(mouse_x,mouse_y)
-					love.audio.play(turfsound)
+			if (PlayerList[i]~=mainplayer) then -- this routine is for NPCs
+				ExploreResults = PlayerList[i].explore(PlayerList[i])
+				if (ExploreResults[0] ~= 999) then
+					if (PlayerList[i].actionpoints>=ExploreResults[0]) then 
+						PlayerList[i].actionpoints=PlayerList[i].actionpoints-ExploreResults[0]
+						PlayerList[i].acquire(PlayerList[i], ExploreResults[1], ExploreResults[2])
+					end	
 				end
-				if (mainplayer.actionpoints>=GetStealCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]~="nobody" and OwnerGrid[mouse_x][mouse_y]~="mainplayer" and IsSolid(mouse_x,mouse_y)==false) then
-					mainplayer.acquire(mainplayer,mouse_x,mouse_y)
-					mainplayer.actionpoints=mainplayer.actionpoints-GetStealCost(mouse_x,mouse_y)
-					love.audio.play(stealsound)
+			else								-- this routine is for the human player
+				if (love.mouse.isDown("l")==true) then 
+					if (mainplayer.actionpoints>=GetGrabCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]=="nobody" and IsSolid(mouse_x,mouse_y)==false) then
+						mainplayer.acquire(mainplayer,mouse_x,mouse_y)
+						mainplayer.actionpoints=mainplayer.actionpoints-GetGrabCost(mouse_x,mouse_y)
+						love.audio.play(turfsound)
+					end
+					if (mainplayer.actionpoints>=GetStealCost(mouse_x,mouse_y) and mainplayer.isAdjacent(mainplayer,mouse_x,mouse_y)==true and OwnerGrid[mouse_x][mouse_y]~="nobody" and OwnerGrid[mouse_x][mouse_y]~="mainplayer" and IsSolid(mouse_x,mouse_y)==false) then
+						mainplayer.acquire(mainplayer,mouse_x,mouse_y)
+						mainplayer.actionpoints=mainplayer.actionpoints-GetStealCost(mouse_x,mouse_y)
+						love.audio.play(stealsound)
+					end
 				end
 			end
 		end
 	end
- 
 	
 		-- random cell color-changing routine
 	for i = 0, xblocks-1 do
@@ -251,6 +257,9 @@ function Game.UpdateEvent()
 	--	end
 	--end
 
+
+	maingame.PlayerCleanup(maingame)
+
 end
 
 function Game.HazardUpdate()
@@ -287,8 +296,17 @@ function Game.HazardUpdate()
 	end
 end
 
-function Game.CreateAnonPlayer(xpos,ypos,red,green,blue) --creates a new NPC player at given position and gives it an automatic name
+--creates a new NPC player at given position and gives it an automatic name
+function Game.CreateAnonPlayer(xpos,ypos,red,green,blue) 
 local name = "player" .. table.getn(PlayerList)
 local makeplayer = Player.new(makeplayer, name, xpos, ypos, red, green, blue)
 return makeplayer
+end
+
+function Game.PlayerCleanup(self)  --checks for all players with no more territory and "deactivates" them
+		for i = 0, PlayerNumber do
+			if (PlayerList[i].GetLandExtent(PlayerList[i])==0) then
+				PlayerList[i].alive=0
+			end
+		end
 end

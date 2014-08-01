@@ -34,6 +34,7 @@
 		self.NiceBorderVal = 0.1+love.math.random(1,10)/10 --coefficient for the value of reducing overall border surface area
 		self.QuickGrabBonus = love.math.random(1,10)/10 --bonus assigned to squares with a lower grab cost than default
 		self.QuickStealBonus = love.math.random(1,10)/10 --bonus assigned to squares with a higher steal cost than default
+		self.alive = 1 --whether or not the player is active.  Is switched to zero when the player loses all territory.
 		return self
 	end
 	
@@ -60,16 +61,17 @@
     function Player.explore (self)
 		local Results = {}
 		Results[0]=999
-		Choice = self.choose(self)
-		Results[1]=Choice[1]
-		Results[2]=Choice[2]
-		if (OwnerGrid[Choice[1]][Choice[2]] == "nobody") then 
-			Results[0] = GetGrabCost(Choice[1], Choice[2])
-		else 
-			Results[0] = GetStealCost(Choice[1], Choice[2])
+		local Choice = self.choose(self)
+		if (Choice~=0) then
+			Results[1]=Choice[1]
+			Results[2]=Choice[2]
+			if (OwnerGrid[Choice[1]][Choice[2]] == "nobody") then 
+				Results[0] = GetGrabCost(Choice[1], Choice[2])
+			else 
+				Results[0] = GetStealCost(Choice[1], Choice[2])
+			end
 		end
 		return Results
-		--self.acquire (self, Choice[1], Choice[2])
     end
     
     function Player.GetLandExtent (self) --function to determine how much land the player controls
@@ -140,7 +142,11 @@
 				table.insert(Possibilities2, Possibilities1[i])
 			end
 		end
-		return Possibilities2[love.math.random(1,table.getn(Possibilities2))]
+		if (table.getn(Possibilities2)>0) then 
+			return Possibilities2[love.math.random(1,table.getn(Possibilities2))]
+		else
+			return 0
+		end
     end
     
     --REBELLION-RELATED STUFF DOWN HERE.
@@ -189,25 +195,28 @@
 		meancolor[0] = meancolor[0]/landcounter
 		meancolor[1] = meancolor[1]/landcounter
 		meancolor[2] = meancolor[2]/landcounter
-		local choice = myland[1]; local variation1 = 0; local variation2 = 0
-		for i=1, table.getn(myland) do
-			variation1 = math.abs(meancolor[0]-ColorGrid[myland[i][1]][myland[i][2]][0]) + math.abs(meancolor[1]-ColorGrid[myland[i][1]][myland[i][2]][1]) + math.abs(meancolor[2]-ColorGrid[myland[i][1]][myland[i][2]][2])
-			variation2 = math.abs(meancolor[0]-ColorGrid[choice[1]][choice[2]][0]) + math.abs(meancolor[1]-ColorGrid[choice[1]][choice[2]][1]) + math.abs(meancolor[2]-ColorGrid[choice[1]][choice[2]][2])
-			if ((variation1>=variation2 and variation1>=12) or variation1>42) then choice = myland[i] end
+		local choice = myland[1]
+		if (landcounter >= 1) then --only continue the rest if the player has more than once square
+			local variation1 = 0; local variation2 = 0
+			for i=1, table.getn(myland) do
+				variation1 = math.abs(meancolor[0]-ColorGrid[myland[i][1]][myland[i][2]][0]) + math.abs(meancolor[1]-ColorGrid[myland[i][1]][myland[i][2]][1]) + math.abs(meancolor[2]-ColorGrid[myland[i][1]][myland[i][2]][2])
+				variation2 = math.abs(meancolor[0]-ColorGrid[choice[1]][choice[2]][0]) + math.abs(meancolor[1]-ColorGrid[choice[1]][choice[2]][1]) + math.abs(meancolor[2]-ColorGrid[choice[1]][choice[2]][2])
+				if ((variation1>=variation2 and variation1>=12) or variation1>42) then choice = myland[i] end
+			end
 		end
 		return choice
     end
 
 	function Player.RebellionSort(self) --checks to see whether a rebellion should happen
 		local locus = self.GetRebelLocus(self)
-		RebelColors = {} ; RebelColors[0] = ColorGrid[locus[1]][locus[2]][0] ; RebelColors[1] = ColorGrid[locus[1]][locus[2]][1] ; RebelColors[2] = ColorGrid[locus[1]][locus[2]][2]
-		for i = 0, xblocks-1 do
-			for j = 0, yblocks-1 do
-				local DiffToMain = math.abs(ColorGrid[i][j][0] - meancolor[0]) + math.abs(ColorGrid[i][j][1] - meancolor[1]) + math.abs(ColorGrid[i][j][2] - meancolor[2])
-				local DiffToLocus = math.abs(ColorGrid[i][j][0] - RebelColors[0]) + math.abs(ColorGrid[i][j][1] - RebelColors[1]) + math.abs(ColorGrid[i][j][2] - RebelColors[2])
-				if (DiffToMain>=DiffToLocus) then RebelGrid[i][j] = RebelGrid[i][j]+0.5 else RebelGrid[i][j] = math.max(RebelGrid[i][j]-1,0) end
+			RebelColors = {} ; RebelColors[0] = ColorGrid[locus[1]][locus[2]][0] ; RebelColors[1] = ColorGrid[locus[1]][locus[2]][1] ; RebelColors[2] = ColorGrid[locus[1]][locus[2]][2]
+			for i = 0, xblocks-1 do
+				for j = 0, yblocks-1 do
+					local DiffToMain = math.abs(ColorGrid[i][j][0] - meancolor[0]) + math.abs(ColorGrid[i][j][1] - meancolor[1]) + math.abs(ColorGrid[i][j][2] - meancolor[2])
+					local DiffToLocus = math.abs(ColorGrid[i][j][0] - RebelColors[0]) + math.abs(ColorGrid[i][j][1] - RebelColors[1]) + math.abs(ColorGrid[i][j][2] - RebelColors[2])
+					if (DiffToMain>=DiffToLocus) then RebelGrid[i][j] = RebelGrid[i][j]+0.5 else RebelGrid[i][j] = math.max(RebelGrid[i][j]-1,0) end
+				end
 			end
-		end
 		return RebelGrid
 	end	
 
