@@ -24,6 +24,7 @@ desertImage = love.graphics.newImage("desert_tile.png")
 lightImage = love.graphics.newImage("light_tile.png")
 caveImage = love.graphics.newImage("cave_tile.png")
 tundraImage = love.graphics.newImage("tundra_tile.png")
+metalImage = love.graphics.newImage("metal_tile.png")
 
 --Load color images
 grasslandImageColor = love.graphics.newImage("grassland_tile_color.png")
@@ -32,6 +33,7 @@ desertImageColor = love.graphics.newImage("desert_tile_color.png")
 mountainImageColor = love.graphics.newImage("mountain_tile_color.png")
 radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
 tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
+metalImageColor = love.graphics.newImage("metal_tile_color.png")
 
 
 --flags

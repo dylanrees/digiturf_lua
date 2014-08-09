@@ -21,7 +21,7 @@ function Game.new(self)
 	--Instantiate some water and chaos
 	for i=0, xblocks-1 do
 		for j=0, yblocks-1 do
-			HazardGrid[i][j] = "grassland"
+			HazardGrid[i][j] = "metal"
 		end
 	end
 	for i = 0, xblocks-1 do
@@ -96,6 +96,7 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "light") then love.graphics.draw(lightImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "cave") then love.graphics.draw(caveImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "tundra") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(tundraImageColor, i*16, j*16) else love.graphics.draw(tundraImage, i*16, j*16) end end
+			if (HazardGrid[i][j] == "metal") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(metalImageColor, i*16, j*16) else love.graphics.draw(metalImage, i*16, j*16) end end
 		end
 	end
 
@@ -133,7 +134,7 @@ function Game.DrawEvent()
 			if (math.floor(love.mouse.getX()/16)==i and math.floor(love.mouse.getY()/16)==j ) then 
 				love.graphics.setColor(255, 255, 255, 128)
 				--love.graphics.print("(" .. mainplayer.GetRebelLocus(mainplayer)[1] .. "," .. mainplayer.GetRebelLocus(mainplayer)[2] .. ")",i*16,j*16-8)
-				love.graphics.print(mainplayer.GetRebelRanking(mainplayer),i*16,j*16)
+				--love.graphics.print(mainplayer.GetRebelRanking(mainplayer),i*16,j*16)
 			end	
 		end
 	end
@@ -170,7 +171,7 @@ function Game.UpdateEvent()
 		--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
 	for i = 0, PlayerNumber do
 		if (PlayerList[i].alive ==1) then --only perform these actions if the player is activated.
-			if (PlayerList[i].actionpoints<PlayerList[i].maxactionpoints) then PlayerList[i].actionpoints=PlayerList[i].actionpoints+1 end
+			if (PlayerList[i].actionpoints<PlayerList[i].maxactionpoints) then PlayerList[i].actionpoints=PlayerList[i].actionpoints+0.5+PlayerList[i].GetLandExtent(PlayerList[i])/200 end
 		
 			if (PlayerList[i]~=mainplayer) then -- this routine is for NPCs
 				ExploreResults = PlayerList[i].explore(PlayerList[i])

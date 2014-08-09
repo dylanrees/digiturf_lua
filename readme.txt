@@ -56,9 +56,9 @@ EARTH TILES
 	   *Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
 
 SPACE TILES
-       *Lava: Impassable.  Chance of depopulation nearby.
+    *Lava: Impassable.  Chance of depopulation nearby.
 	*Cave: Chance of depopulate.  Chance of spawning a new player.
-	 Metal Plate - Incredibly easy to steal.  Good color stability. 
+	*Metal Plate - Incredibly easy to grab.  Normal otherwise.
 
 OTHER TILES
        *Chaos Tiles: Impassable.  Greatly increase stability.

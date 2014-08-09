@@ -35,7 +35,7 @@ end
 
 function GetGrabCost (xpos, ypos) --looks at the Hazard Grid to tell you how hard it is to grab unowned land
 	local answer = 15 --default value.  this is the number of "action points" you need to claim it
-	local CostTable = {{"forest",30},{"mountain",40},{"grassland",10},{"desert",25},{"tundra",30}} --all hazards with non-default grab cost
+	local CostTable = {{"forest",30},{"mountain",40},{"grassland",10},{"desert",25},{"tundra",30},{"metal",5}} --all hazards with non-default grab cost
 	for i = 1, table.getn(CostTable) do
 		if (HazardGrid[xpos][ypos] == CostTable[i][1]) then answer = CostTable[i][2] end
 	end

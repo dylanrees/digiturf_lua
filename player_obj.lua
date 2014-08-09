@@ -227,12 +227,12 @@
 		local switch = false --changes behavior after the first cleaving territory is identified
 		for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
-				if (RebelGrid[i][j] >= 35 and OwnerGrid[i][j] == self.name) then --only the first square needs to be 40 rebelgrid; the rest get "carried along"
+				if (RebelGrid[i][j] >= 30 and OwnerGrid[i][j] == self.name) then --only the first square needs to be 40 rebelgrid; the rest get "carried along"
 					if (switch == false) then
 						switch = true
-						local reddelta = love.math.random(60)-30
-						local greendelta = love.math.random(60)-30
-						local bluedelta = love.math.random(60)-30
+						reddelta = love.math.random(60)-30
+						greendelta = love.math.random(60)-30
+						bluedelta = love.math.random(60)-30
 						rebelplayer = maingame.CreateAnonPlayer(i,j,ColorGrid[i][j][0]+reddelta,ColorGrid[i][j][1]+greendelta,ColorGrid[i][j][2]+bluedelta)
 					else
 						OwnerGrid[i][j]=rebelplayer.name
