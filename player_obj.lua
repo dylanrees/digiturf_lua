@@ -35,6 +35,8 @@
 		self.QuickGrabBonus = love.math.random(1,10)/10 --bonus assigned to squares with a lower grab cost than default
 		self.QuickStealBonus = love.math.random(1,10)/10 --bonus assigned to squares with a higher steal cost than default
 		self.alive = 1 --whether or not the player is active.  Is switched to zero when the player loses all territory.
+		self.originx = givex
+		self.originy = givey --starting place of the territory.  this tells you where to build your city.
 		return self
 	end
 	

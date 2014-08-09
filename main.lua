@@ -35,6 +35,9 @@ radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
 tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
 metalImageColor = love.graphics.newImage("metal_tile_color.png")
 
+--Load city graphics
+cityImage = love.graphics.newImage("city.png")
+
 
 --flags
 flag_green = love.graphics.newImage("flag_green.png")
