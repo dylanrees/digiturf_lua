@@ -57,7 +57,8 @@ EARTH TILES
 
 SPACE TILES
        *Lava: Impassable.  Chance of depopulation nearby.
-	   *Cave: Chance of depopulate.  Chance of spawning a new player.
+	*Cave: Chance of depopulate.  Chance of spawning a new player.
+	 Metal Plate - Incredibly easy to steal.  Good color stability. 
 
 OTHER TILES
        *Chaos Tiles: Impassable.  Greatly increase stability.
@@ -143,7 +144,8 @@ Coding done in Geany
 Special thanks to the Lua and Love2D teams!  
 	http://www.lua.org/ 
 	https://love2d.org/
-Special thanks to OpenGameArt
+Special thanks to:
 	http://www.opengameart.org
+	http://www.vgmuseum.com
 Also special thanks to GameJolt!
 	http://www.gamejolt.com

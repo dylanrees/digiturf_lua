@@ -227,16 +227,23 @@
 		local switch = false --changes behavior after the first cleaving territory is identified
 		for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
-				if (RebelGrid[i][j] >= 40 and OwnerGrid[i][j] == self.name) then
+				if (RebelGrid[i][j] >= 35 and OwnerGrid[i][j] == self.name) then --only the first square needs to be 40 rebelgrid; the rest get "carried along"
 					if (switch == false) then
 						switch = true
-						rebelplayer = maingame.CreateAnonPlayer(i,j,ColorGrid[i][j][0],ColorGrid[i][j][1],ColorGrid[i][j][2])
+						local reddelta = love.math.random(60)-30
+						local greendelta = love.math.random(60)-30
+						local bluedelta = love.math.random(60)-30
+						rebelplayer = maingame.CreateAnonPlayer(i,j,ColorGrid[i][j][0]+reddelta,ColorGrid[i][j][1]+greendelta,ColorGrid[i][j][2]+bluedelta)
 					else
-						rebelplayer.acquire(self, i, j)
+						OwnerGrid[i][j]=rebelplayer.name
+						ColorGrid[i][j][0]=ColorGrid[i][j][0]+reddelta
+						ColorGrid[i][j][1]=ColorGrid[i][j][1]+greendelta
+						ColorGrid[i][j][2]=ColorGrid[i][j][2]+bluedelta
 					end
+					RebelGrid[i][j]=0
 				end
 			end
 		end
 		maingame.PlayerCleanup(maingame)
-		love.audio.play(rebellionsound)
+		if (switch==true) then love.audio.play(rebellionsound) end
 	end
