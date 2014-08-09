@@ -9,6 +9,8 @@ require("misc_functions")
 turfsound = love.audio.newSource("turfsound.wav", "static")
 stealsound = love.audio.newSource("stealsound.wav", "static")
 enemysound = love.audio.newSource("enemysound.wav", "static")
+deathsound = love.audio.newSource("deathsound.wav", "static")
+rebellionsound = love.audio.newSource("rebellionsound.wav", "static")
 	
 --Load greyscale images
 waterImage = love.graphics.newImage("water_tile.png")
@@ -21,6 +23,7 @@ grasslandImage = love.graphics.newImage("grassland_tile.png")
 desertImage = love.graphics.newImage("desert_tile.png")
 lightImage = love.graphics.newImage("light_tile.png")
 caveImage = love.graphics.newImage("cave_tile.png")
+tundraImage = love.graphics.newImage("tundra_tile.png")
 
 --Load color images
 grasslandImageColor = love.graphics.newImage("grassland_tile_color.png")
@@ -28,6 +31,7 @@ forestImageColor = love.graphics.newImage("forest_tile_color.png")
 desertImageColor = love.graphics.newImage("desert_tile_color.png")
 mountainImageColor = love.graphics.newImage("mountain_tile_color.png")
 radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
+tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
 
 
 --flags

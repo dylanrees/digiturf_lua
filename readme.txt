@@ -53,11 +53,11 @@ EARTH TILES
        *Forest: Moderate difficulty to claim or steal.  Fairly color-stable.
        *Mountain: Difficult to claim or steal.  Moderate color stability.
        *Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
-	Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
+	   *Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
 
 SPACE TILES
        *Lava: Impassable.  Chance of depopulation nearby.
-	Cave: Chance of depopulate.  Chance of spawning a new player.
+	   *Cave: Chance of depopulate.  Chance of spawning a new player.
 
 OTHER TILES
        *Chaos Tiles: Impassable.  Greatly increase stability.

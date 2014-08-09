@@ -58,7 +58,14 @@ function Game.new(self)
 		end
 	end
 		
-		--HazardGrid[5][15] = "cave"
+		HazardGrid[5][15] = "cave"
+		HazardGrid[6][15] = "cave"
+		HazardGrid[7][15] = "cave"
+		HazardGrid[8][15] = "cave"
+		
+		for i = 0, xblocks-1 do
+		HazardGrid[i][3] = "tundra"
+	end
 		
 	return self
 end
@@ -88,6 +95,7 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "desert") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(desertImageColor, i*16, j*16) else love.graphics.draw(desertImage, i*16, j*16) end end
 			if (HazardGrid[i][j] == "light") then love.graphics.draw(lightImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "cave") then love.graphics.draw(caveImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "tundra") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(tundraImageColor, i*16, j*16) else love.graphics.draw(tundraImage, i*16, j*16) end end
 		end
 	end
 
@@ -248,14 +256,14 @@ function Game.UpdateEvent()
 
 
 	--cave effect
-	--for i = 0, xblocks-1 do
-	--	for j = 0, yblocks-1 do
-	--		if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
-	--		if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
-	--		if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
-	--		if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="cave") then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
-	--	end
-	--end
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			if (i>0) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i-1][j]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+			if (i<xblocks-1) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i+1][j]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+			if (j>0) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i][j-1]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+			if (j<yblocks-1) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i][j+1]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
+		end
+	end
 
 
 	maingame.PlayerCleanup(maingame)
@@ -304,9 +312,12 @@ return makeplayer
 end
 
 function Game.PlayerCleanup(self)  --checks for all players with no more territory and "deactivates" them
+local action = false --flips to true if the routine actually has to eliminate any players
 		for i = 0, PlayerNumber do
-			if (PlayerList[i].GetLandExtent(PlayerList[i])==0) then
+			if (PlayerList[i].GetLandExtent(PlayerList[i])==0 and PlayerList[i].alive==1 ) then
 				PlayerList[i].alive=0
+				action = true
 			end
 		end
+	if (action == true) then love.audio.play(deathsound) end
 end
