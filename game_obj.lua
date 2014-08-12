@@ -51,14 +51,22 @@ function Game.new(self)
 			HazardGrid[i][j] = "mountain"
 		end
 	end
+	
 	for i=4, 10 do
 		for j=20,25 do
 			HazardGrid[i][j] = "desert"
 		end
 	end
+	
 	for i=34, 40 do
-		for j=20,25 do
+		for j=20,24 do
 			HazardGrid[i][j] = "light"
+		end
+	end
+	
+	for i=34, 40 do
+		for j=25,30 do
+			HazardGrid[i][j] = "dark"
 		end
 	end
 		
@@ -66,6 +74,11 @@ function Game.new(self)
 		HazardGrid[6][15] = "cave"
 		HazardGrid[7][15] = "cave"
 		HazardGrid[8][15] = "cave"
+		
+		HazardGrid[25][20] = "stonehead"
+		HazardGrid[26][20] = "stonehead"
+		HazardGrid[27][20] = "stonehead"
+		HazardGrid[28][20] = "stonehead"
 		
 		for i = 0, xblocks-1 do
 		HazardGrid[i][3] = "tundra"
@@ -115,12 +128,15 @@ local makeplayer = Player.new(makeplayer, name, xpos, ypos, red, green, blue)
 return makeplayer
 end
 
-function Game.PlayerCleanup(self)  --checks for all players with no more territory and "deactivates" them
-local action = false --flips to true if the routine actually has to eliminate any players
+function Game.PlayerCleanup(self)  
+local action = false --flips to true if the routine has to eliminate any players
 		for i = 0, PlayerNumber do
 			if (PlayerList[i].GetLandExtent(PlayerList[i])==0 and PlayerList[i].alive==1 ) then
-				PlayerList[i].alive=0
+				PlayerList[i].alive=0  --checks for all players with no more territory and "deactivates" them
 				action = true
+			end
+			if (PlayerList[i].GetLandExtent(PlayerList[i])>=1 and OwnerGrid[PlayerList[i].originx][PlayerList[i].originy]~=PlayerList[i].name) then
+				PlayerList[i].PickNewTown(PlayerList[i])
 			end
 		end
 	if (action == true) then love.audio.play(deathsound) end

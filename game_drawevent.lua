@@ -25,6 +25,8 @@ function Game.DrawEvent()
 			if (HazardGrid[i][j] == "cave") then love.graphics.draw(caveImage, i*16, j*16) end
 			if (HazardGrid[i][j] == "tundra") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(tundraImageColor, i*16, j*16) else love.graphics.draw(tundraImage, i*16, j*16) end end
 			if (HazardGrid[i][j] == "metal") then if (OwnerGrid[i][j] == "nobody") then love.graphics.draw(metalImageColor, i*16, j*16) else love.graphics.draw(metalImage, i*16, j*16) end end
+			if (HazardGrid[i][j] == "dark") then love.graphics.draw(darkImage, i*16, j*16) end
+			if (HazardGrid[i][j] == "stonehead") then love.graphics.draw(stoneheadImage, i*16, j*16) end
 		end
 	end
 

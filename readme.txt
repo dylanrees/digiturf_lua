@@ -67,10 +67,12 @@ OTHER TILES
  	Nuke Tiles: At either a fixed or random interval, they will explode and clear ownership of nearby tiles
        *Radioactive Tiles: Rapidly depopulate.
 	Stronghold Tiles: Very hard to steal!
-	Skull Territories: Depopulate so rapidly that they're effectively no-man's lands!
+		*Stone Heads: Depopulate so rapidly that they effectively create no-man's lands!
 	Flags and Gates: Capture a flag and open the corresponding colored gate.
-	Darkness Tiles: The dark version of Light Tiles.
+	   *Darkness Tiles: The dark version of Light Tiles.
        *Light Tiles: Tend to make all nearby territory black/white.
+	Spawner: A player starts here.
+	Random Spawner:  This will start a player anywhere.
 
 
 ==FITNESS FUNCTION==
@@ -135,7 +137,9 @@ A merged territory will randomly combine attributes of the flags of the parent t
 
 ==CREDITS==
 
-Design and programming by Dylan Rees
+Design and programming by Dylan Rees.  I'll be licensing this formally under an open-source license when it's done.
+For now, just consider it the code free to use for non-commerical purposes.  If you do use any aspect of it
+for your own projects, it'd be nice if you would shoot me an email at dylan.rees@gmail.com.
 
 Sound effects created using as3sfxr 
 	http://www.superflashbros.net/as3sfxr/
@@ -147,5 +151,6 @@ Special thanks to the Lua and Love2D teams!
 Special thanks to:
 	http://www.opengameart.org
 	http://www.vgmuseum.com
+	http://www.spriters-resource.com/nes/
 Also special thanks to GameJolt!
 	http://www.gamejolt.com

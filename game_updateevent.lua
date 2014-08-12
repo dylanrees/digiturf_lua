@@ -99,6 +99,20 @@ function Game.UpdateEvent()
 			ColorGrid[i][j][2] = ColorGrid[i][j][2] + lightening
 		end
 	end
+	
+	-- dark tile effect
+	for i = 0, xblocks-1 do
+		for j = 0, yblocks-1 do
+			darkening = 0
+			if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+			if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+			if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+			if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+			ColorGrid[i][j][0] = ColorGrid[i][j][0] - darkening
+			ColorGrid[i][j][1] = ColorGrid[i][j][1] - darkening
+			ColorGrid[i][j][2] = ColorGrid[i][j][2] - darkening
+		end
+	end
 
 
 	--cave effect

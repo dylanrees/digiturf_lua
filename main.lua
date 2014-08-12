@@ -3,7 +3,7 @@ function love.load()
 require("player_obj")
 require("game_obj")
 require("title_obj")
-require("misc_functions")
+require("tile_functions")
 
 --Load sounds
 turfsound = love.audio.newSource("turfsound.wav", "static")
@@ -12,7 +12,7 @@ enemysound = love.audio.newSource("enemysound.wav", "static")
 deathsound = love.audio.newSource("deathsound.wav", "static")
 rebellionsound = love.audio.newSource("rebellionsound.wav", "static")
 	
---Load greyscale images
+--Load greyscale images (and color images for tiles that have only one image)
 waterImage = love.graphics.newImage("water_tile.png")
 chaosImage = love.graphics.newImage("chaos_tile.png")
 lavaImage = love.graphics.newImage("lava_tile.png")
@@ -25,6 +25,8 @@ lightImage = love.graphics.newImage("light_tile.png")
 caveImage = love.graphics.newImage("cave_tile.png")
 tundraImage = love.graphics.newImage("tundra_tile.png")
 metalImage = love.graphics.newImage("metal_tile.png")
+darkImage = love.graphics.newImage("dark_tile.png")
+stoneheadImage = love.graphics.newImage("stonehead_tile.png")
 
 --Load color images
 grasslandImageColor = love.graphics.newImage("grassland_tile_color.png")
@@ -34,6 +36,7 @@ mountainImageColor = love.graphics.newImage("mountain_tile_color.png")
 radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
 tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
 metalImageColor = love.graphics.newImage("metal_tile_color.png")
+
 
 --Load city graphics
 cityImage = love.graphics.newImage("city.png")

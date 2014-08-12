@@ -1,7 +1,7 @@
 
 function IsSolid (xpos, ypos) --looks at the Hazard Grid to tell you whether a given space is a solid, i.e. impassalbe
 	local answer = false
-	SolidTable = {"water", "chaos", "lava", "light","cave"} -- this table contains the names of all the solid hazards
+	SolidTable = {"water", "chaos", "lava", "light","cave", "dark", "stonehead"} -- this table contains the names of all the solid hazards
 	for i = 1, table.getn(SolidTable) do 
 		if (HazardGrid[xpos][ypos] == SolidTable[i]) then answer = true end
 	end
@@ -10,7 +10,7 @@ end
 
 function GetDepop (xpos, ypos) --looks at the Hazard Grid to tell you whether a given space has the depop property
 	local answer = 0
-	DepopTable = {{"lava",15},{"radioactive",30},{"desert",3},{"tundra",2}} -- this table contains the names of all the depop hazards and their depop levels
+	DepopTable = {{"lava",15},{"radioactive",30},{"desert",3},{"tundra",2},{"stonehead",20000}} -- this table contains the names of all the depop hazards and their depop levels
 	for i = 1, table.getn(DepopTable) do
 		if (HazardGrid[xpos][ypos] == DepopTable[i][1]) then answer = DepopTable[i][2] end
 	end

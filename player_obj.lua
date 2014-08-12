@@ -249,3 +249,21 @@
 		maingame.PlayerCleanup(maingame)
 		if (switch==true) then love.audio.play(rebellionsound) end
 	end
+	
+	function Player.PickNewTown(self) --finds a new town location for a player whose town space has been stolen
+		local pick = {} --this variable stores the coordinates of the chosen square
+		local pickroll = 0--stores the random number
+		local pickrollnew = 0
+		for i = 0, xblocks-1 do
+			for j = 0, yblocks-1 do
+				pickrollnew = love.math.random(9999)+1
+				if (pickrollnew >= pickroll and OwnerGrid[i][j] == self.name) then
+					pickroll = pickrollnew
+					pick[1] = i
+					pick[2] = j
+				end
+			end
+		end
+		self.originx = pick[1]
+		self.originy = pick[2]
+	end
