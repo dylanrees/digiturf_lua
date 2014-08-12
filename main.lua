@@ -27,6 +27,8 @@ tundraImage = love.graphics.newImage("tundra_tile.png")
 metalImage = love.graphics.newImage("metal_tile.png")
 darkImage = love.graphics.newImage("dark_tile.png")
 stoneheadImage = love.graphics.newImage("stonehead_tile.png")
+tallmountainImage = love.graphics.newImage("tallmountain_tile.png")
+strongholdImage = love.graphics.newImage("stronghold_tile.png")
 
 --Load color images
 grasslandImageColor = love.graphics.newImage("grassland_tile_color.png")
@@ -36,6 +38,7 @@ mountainImageColor = love.graphics.newImage("mountain_tile_color.png")
 radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
 tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
 metalImageColor = love.graphics.newImage("metal_tile_color.png")
+strongholdImageColor = love.graphics.newImage("stronghold_tile_color.png")
 
 
 --Load city graphics

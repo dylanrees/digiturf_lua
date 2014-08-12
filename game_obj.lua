@@ -24,10 +24,17 @@ function Game.new(self)
 		
 	--Instantiate some water and chaos
 	for i=0, xblocks-1 do
-		for j=0, yblocks-1 do
+		for j=0, 30 do
+			HazardGrid[i][j] = "grassland"
+		end
+	end
+	
+	for i=0, xblocks-1 do
+		for j=30, yblocks-1 do
 			HazardGrid[i][j] = "metal"
 		end
 	end
+	
 	for i = 0, xblocks-1 do
 		HazardGrid[i][yblocks-2] = "water"
 		HazardGrid[i][yblocks-1] = "water"
@@ -51,6 +58,16 @@ function Game.new(self)
 			HazardGrid[i][j] = "mountain"
 		end
 	end
+	
+
+	for j=12,18 do
+			HazardGrid[11][j] = "tallmountain"
+	end
+
+	for i=12,18 do
+			HazardGrid[i][11] = "stronghold"
+	end
+	
 	
 	for i=4, 10 do
 		for j=20,25 do

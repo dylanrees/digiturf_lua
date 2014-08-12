@@ -39,7 +39,7 @@ end
 --Initialize HazardGrid
 --HazardGrid tells you where non-turf objects are located
 --Possible options: "nothing", "water", "chaos", "lava", "radioactive", "forest", "mountain", "grassland", "desert", "light",
---"cave", "tundra", "metal", "dark", "stonehead"
+--"cave", "tundra", "metal", "dark", "stonehead", "tallmountain", "stronghold"
 HazardGrid = {}
 for i = 0, xblocks-1 do
 	HazardGrid[i] = {}

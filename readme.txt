@@ -54,6 +54,9 @@ EARTH TILES
        *Mountain: Difficult to claim or steal.  Moderate color stability.
        *Desert: Difficult to claim or steal.  High color instability.  Depopulates moderately.
 	   *Tundra: Difficult to claim or steal.  Moderate color stability.  Depopulates slightly.
+	   * Ruins: Slightly increase your action point gain.
+	   * Tall Mountain: A solid decorative block.
+	   Oasis: Harder to steal and more stable than a normal desert.  Maybe aids global stability/gives action points.
 
 SPACE TILES
     *Lava: Impassable.  Chance of depopulation nearby.
@@ -151,6 +154,7 @@ Special thanks to the Lua and Love2D teams!
 Special thanks to:
 	http://www.opengameart.org
 	http://www.vgmuseum.com
-	http://www.spriters-resource.com/nes/
+	http://www.spriters-resource.com/
+	http://spritedatabase.net/
 Also special thanks to GameJolt!
 	http://www.gamejolt.com
