@@ -31,6 +31,7 @@ ENTIRE territories, so that both become more similar in color.
 
 ==MISC.==
 *An "action point booster" item.
+* possible alternative win conditions?
 
 ==GAME MODES==
 	Castle: Once a player's stronghold is captured, that's the end of them.

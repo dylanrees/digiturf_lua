@@ -60,7 +60,7 @@ function Game.DrawEvent()
 			
 				--draw player cities
 				love.graphics.setColor(255,255,255, 255 )
-				if (OwnerGrid[i][j]==PlayerList[k].name and PlayerList[k].originx==i and PlayerList[k].originy==j) then love.graphics.draw(cityImage, i*16, j*16) end
+				if (OwnerGrid[i][j]==PlayerList[k].name and PlayerList[k].originx==i and PlayerList[k].originy==j) then love.graphics.draw(cityImage, PlayerList[k].cityquad, i*16, j*16) end
 			end
 		end	
 	end
@@ -84,9 +84,9 @@ function Game.DrawEvent()
 				for j=0, yblocks-1 do
 					--love.graphics.setColor( math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), math.max(255-RebelGrid[i][j]*1,0), 255 )
 					love.graphics.setColor(255,255,255,255)
-					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 10) then love.graphics.draw(flag_green, i*16, j*16) end
-					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 20) then love.graphics.draw(flag_yellow, i*16, j*16) end
-					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 30) then love.graphics.draw(flag_red, i*16, j*16) end
+					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 10) then love.graphics.draw(flagImage, flag_green, i*16, j*16) end
+					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 20) then love.graphics.draw(flagImage, flag_yellow, i*16, j*16) end
+					if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 30) then love.graphics.draw(flagImage, flag_red, i*16, j*16) end
 				end
 			end
 		end

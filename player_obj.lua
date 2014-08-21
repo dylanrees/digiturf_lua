@@ -40,6 +40,12 @@
 		self.alive = 1 --whether or not the player is active.  Is switched to zero when the player loses all territory.
 		self.originx = givex
 		self.originy = givey --starting place of the territory.  this tells you where to build your city.
+		
+		--figure out what the player's city sprite will be
+		self.cityx = math.floor(love.math.random(7.5))
+		self.cityy = math.floor(love.math.random(4.5))
+		self.cityquad = love.graphics.newQuad(self.cityx*16,self.cityy*16,16,16, cityImage:getDimensions())	
+		
 		return self
 	end
 	

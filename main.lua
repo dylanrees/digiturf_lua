@@ -42,15 +42,23 @@ strongholdImageColor = love.graphics.newImage("stronghold_tile_color.png")
 
 
 --Load city graphics
-cityImage = love.graphics.newImage("city.png")
+cityImage = love.graphics.newImage("resources/cities_big.png")
 
 
---flags
-flag_green = love.graphics.newImage("flag_green.png")
-flag_yellow = love.graphics.newImage("flag_yellow.png")
-flag_red = love.graphics.newImage("flag_red.png")
+--flag image
+flagImage = love.graphics.newImage("resources/flags.png")
+--flag quads
+flag_green = love.graphics.newQuad(0,0,16,16, flagImage:getDimensions())
+flag_yellow = love.graphics.newQuad(16,0,16,16, flagImage:getDimensions())
+flag_red = love.graphics.newQuad(32,0,16,16, flagImage:getDimensions())
 
-	
+--figure out which resolutions are supported
+modes = love.window.getFullscreenModes()
+table.sort(modes, function(a, b) return a.width*a.height < b.width*b.height end)   -- sort from smallest to largest
+--love.window.setMode(800,600, {fullscreen=true})
+
+
+--create the title	
 maintitle = Title.new()
 		
 end
@@ -77,6 +85,11 @@ function love.update(dt)
 	if (maintitle.visible==false) then
 		maingame.UpdateEvent()
 	end
+	
+   --allow exiting the game with the escape key
+   if love.keyboard.isDown('escape')==true then
+      love.event.quit()
+   end
 	
 end
 
