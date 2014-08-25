@@ -4,7 +4,7 @@
 	--Initiate the list that will hold all players for indexing
 	PlayerList = {}
 	-- for indexing total number of players
-	PlayerNumber = -1
+	PlayerNumber = 0
 	
 	--Create the Player object class
 	Player = {}

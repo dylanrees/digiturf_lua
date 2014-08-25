@@ -18,7 +18,10 @@ function Game.new(self)
 	--Instantiate the first players
 	-- Note: This mainplayer construct will throw a weird error if it's called wrong
 	mainplayer = Player.new(mainplayer, "mainplayer", 15, 15, 0, 128, 200)
+	--self.CreateAnonPlayer(math.floor(love.math.random(xblocks-1)),math.floor(love.math.random(yblocks-1)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)))
 	mainplayer.control="human"
+	--PlayerList[0].name="mainplayer"
+	--mainplayer = PlayerList[0]
 	self.CreateAnonPlayer(math.floor(love.math.random(xblocks-1)),math.floor(love.math.random(yblocks-1)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)))
 	self.CreateAnonPlayer(math.floor(love.math.random(xblocks-1)),math.floor(love.math.random(yblocks-1)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)), math.floor(love.math.random(0,255)))
 		
@@ -147,7 +150,7 @@ end
 
 function Game.PlayerCleanup(self)  
 local action = false --flips to true if the routine has to eliminate any players
-		for i = 0, PlayerNumber do
+		for i = 1, PlayerNumber do
 			if (PlayerList[i].GetLandExtent(PlayerList[i])==0 and PlayerList[i].alive==1 ) then
 				PlayerList[i].alive=0  --checks for all players with no more territory and "deactivates" them
 				action = true

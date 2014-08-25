@@ -2,7 +2,7 @@ function Game.DrawEvent()
 
 	--event for drawing the HUD underneath
 	love.graphics.setColor( 0, 0, 0, 255 )
-	love.graphics.rectangle("fill", 0, yblocks*16, xblocks*16, 32 )
+	love.graphics.rectangle("fill", 0, yblocks*16, xblocks*16, 128 )
 	love.graphics.setColor( 128, 128, 128, 255 )
 	love.graphics.rectangle("fill", 32, yblocks*16+8, 128, 16 )
 	love.graphics.print("Action Points",162,yblocks*16+10)
@@ -47,7 +47,7 @@ function Game.DrawEvent()
 	end
 	
 	--DRAW LOOP THAT APPLIES TO ALL PLAYERS
-	for k = 0, PlayerNumber do
+	for k = 1, PlayerNumber do
 		for i = 0, xblocks-1 do
 			for j = 0, yblocks-1 do
 			
@@ -77,7 +77,7 @@ function Game.DrawEvent()
 	end
 
 	--Draw flags for the "rebel territories"
-	for k = 0, PlayerNumber do
+	for k = 1, PlayerNumber do
 		if (PlayerList[k].alive==1) then --only do for each player if they're activated
 			RebelGrid = PlayerList[k].RebellionSort(PlayerList[k])
 			for i = 0, xblocks-1 do
@@ -92,5 +92,12 @@ function Game.DrawEvent()
 		end
 	end
 
+	-- Draw leaderboard
+	for i=1, math.min(4,PlayerNumber) do
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.draw(cityImage, PlayerList[i].cityquad, 300, 632+16*i)
+		love.graphics.setColor(PlayerList[i].red, PlayerList[i].green, PlayerList[i].blue, 255)
+		love.graphics.rectangle("fill", 316, 632+16*i, PlayerList[i].GetLandExtent(PlayerList[i]), 16 )
+	end
 
 end

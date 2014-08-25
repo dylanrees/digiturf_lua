@@ -9,12 +9,13 @@ function Game.UpdateEvent()
 	mouse_x = math.floor(love.mouse.getX()/16)
 	mouse_y = math.floor(love.mouse.getY()/16)
 	
+	
 		--UPKEEP LOOP THAT APPLIES TO ALL PLAYERS
-	for i = 0, PlayerNumber do
+	for i = 1, PlayerNumber do
 		if (PlayerList[i].alive ==1) then --only perform these actions if the player is activated.
 			if (PlayerList[i].actionpoints<PlayerList[i].maxactionpoints) then PlayerList[i].actionpoints=PlayerList[i].actionpoints+0.5+PlayerList[i].GetLandExtent(PlayerList[i])/200 end
 		
-			if (PlayerList[i]~=mainplayer) then -- this routine is for NPCs
+			if (PlayerList[i].control~="human") then -- this routine is for NPCs
 				ExploreResults = PlayerList[i].explore(PlayerList[i])
 				if (ExploreResults[0] ~= 999) then
 					if (PlayerList[i].actionpoints>=ExploreResults[0]) then 
@@ -125,7 +126,15 @@ function Game.UpdateEvent()
 		end
 	end
 
-
 	maingame.PlayerCleanup(maingame)
+	
+	--HUD player ranking
+	
+	function scorecompare(a,b)
+		return a.GetLandExtent(a) > b.GetLandExtent(b) -- sort from largest to smallest
+	end
+
+	table.sort(PlayerList, scorecompare)
+	
 
 end
