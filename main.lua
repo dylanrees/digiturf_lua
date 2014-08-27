@@ -6,11 +6,11 @@ require("title_obj")
 require("tile_functions")
 
 --Load sounds
-turfsound = love.audio.newSource("turfsound.wav", "static")
-stealsound = love.audio.newSource("stealsound.wav", "static")
-enemysound = love.audio.newSource("enemysound.wav", "static")
-deathsound = love.audio.newSource("deathsound.wav", "static")
-rebellionsound = love.audio.newSource("rebellionsound.wav", "static")
+turfsound = love.audio.newSource("resources/turfsound.wav", "static")
+stealsound = love.audio.newSource("resources/stealsound.wav", "static")
+enemysound = love.audio.newSource("resources/enemysound.wav", "static")
+deathsound = love.audio.newSource("resources/deathsound.wav", "static")
+rebellionsound = love.audio.newSource("resources/rebellionsound.wav", "static")
 	
 --Load greyscale images (and color images for tiles that have only one image)
 waterImage = love.graphics.newImage("water_tile.png")
@@ -40,10 +40,9 @@ tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
 metalImageColor = love.graphics.newImage("metal_tile_color.png")
 strongholdImageColor = love.graphics.newImage("stronghold_tile_color.png")
 
-
 --Load city graphics
 cityImage = love.graphics.newImage("resources/cities_big.png")
-
+littlecityImage = love.graphics.newImage("resources/cities_little.png")
 
 --flag image
 flagImage = love.graphics.newImage("resources/flags.png")

@@ -58,9 +58,11 @@ function Game.DrawEvent()
 				if (OwnerGrid[i][j]==PlayerList[k].name and (j==0 or (j>0 and OwnerGrid[i][j-1]~=PlayerList[k].name))) then love.graphics.line(i*16,j*16,i*16+16,j*16) end
 				if (OwnerGrid[i][j]==PlayerList[k].name and (j==yblocks-1 or (j<yblocks-1 and OwnerGrid[i][j+1]~=PlayerList[k].name))) then love.graphics.line(i*16,j*16+16,i*16+16,j*16+16) end		
 			
-				--draw player cities
-				love.graphics.setColor(255,255,255, 255 )
+				--draw player big cities
+				love.graphics.setColor(PlayerList[k].cityr,PlayerList[k].cityg,PlayerList[k].cityb,255)
 				if (OwnerGrid[i][j]==PlayerList[k].name and PlayerList[k].originx==i and PlayerList[k].originy==j) then love.graphics.draw(cityImage, PlayerList[k].cityquad, i*16, j*16) end
+				--draw player little cities
+								if (OwnerGrid[i][j]==PlayerList[k].name and PlayerList[k].originx==i and PlayerList[k].originy==j) then love.graphics.draw(littlecityImage, PlayerList[k].littlecityquad, i*16, j*16) end
 			end
 		end	
 	end
@@ -94,8 +96,9 @@ function Game.DrawEvent()
 
 	-- Draw leaderboard
 	for i=1, math.min(4,PlayerNumber) do
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(PlayerList[i].cityr,PlayerList[i].cityg,PlayerList[i].cityb,255)
 		love.graphics.draw(cityImage, PlayerList[i].cityquad, 300, 632+16*i)
+		love.graphics.draw(littlecityImage, PlayerList[i].littlecityquad, 300, 632+16*i)
 		love.graphics.setColor(PlayerList[i].red, PlayerList[i].green, PlayerList[i].blue, 255)
 		love.graphics.rectangle("fill", 316, 632+16*i, PlayerList[i].GetLandExtent(PlayerList[i]), 16 )
 	end

@@ -45,6 +45,15 @@
 		self.cityx = math.floor(love.math.random(7.5))
 		self.cityy = math.floor(love.math.random(4.5))
 		self.cityquad = love.graphics.newQuad(self.cityx*16,self.cityy*16,16,16, cityImage:getDimensions())	
+		-- little city overlay
+		self.littlecityx = math.floor(love.math.random(3.5))
+		self.littlecityy = math.floor(love.math.random(3.5))
+		self.littlecityquad = love.graphics.newQuad(self.littlecityx*16,self.littlecityy*16,16,16, littlecityImage:getDimensions())	
+		-- city colors
+		self.cityr = 30+love.math.random(225)
+		self.cityg = 30+love.math.random(225)
+		self.cityb = 30+love.math.random(225)
+		
 		
 		return self
 	end

@@ -149,6 +149,8 @@ Sound effects created using as3sfxr
 	http://www.superflashbros.net/as3sfxr/
 Coding done in Geany 
 	http://www.geany.org/
+Fonts taken from
+	http://openfontlibrary.org
 Special thanks to the Lua and Love2D teams!  
 	http://www.lua.org/ 
 	https://love2d.org/
