@@ -70,8 +70,8 @@ OTHER TILES
        #Vanishing Water: The opposite of vanishing land.
  	Nuke Tiles: At either a fixed or random interval, they will explode and clear ownership of nearby tiles
        *Radioactive Tiles: Rapidly depopulate.
-	Stronghold Tiles: Very hard to steal!
-		*Stone Heads: Depopulate so rapidly that they effectively create no-man's lands!
+	   *Stronghold Tiles: Very hard to steal!
+	   *Stone Heads: Depopulate so rapidly that they effectively create no-man's lands!
 	Flags and Gates: Capture a flag and open the corresponding colored gate.
 	   *Darkness Tiles: The dark version of Light Tiles.
        *Light Tiles: Tend to make all nearby territory black/white.

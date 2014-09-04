@@ -161,3 +161,13 @@ local action = false --flips to true if the routine has to eliminate any players
 		end
 	if (action == true) then love.audio.play(deathsound) end
 end
+
+function Game.GetLandTotal (self) --function to determine how much land is controlled by players in total
+	local counter=0
+	for i=0, xblocks-1 do
+		for j=0, yblocks-1 do
+			if (OwnerGrid[i][j] ~= "nobody") then counter = counter+1 end
+		end
+	end
+	return counter
+end

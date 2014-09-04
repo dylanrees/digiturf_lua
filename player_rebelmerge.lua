@@ -85,8 +85,14 @@
 						greendelta = love.math.random(60)-30
 						bluedelta = love.math.random(60)-30
 						rebelplayer = maingame.CreateAnonPlayer(i,j,ColorGrid[i][j][0]+reddelta,ColorGrid[i][j][1]+greendelta,ColorGrid[i][j][2]+bluedelta)
+						rebelplayer.cityx = self.cityx --let the new player inherit the old player's city properties
+						rebelplayer.cityy = self.cityy
+						rebelplayer.cityquad = love.graphics.newQuad(rebelplayer.cityx*16,rebelplayer.cityy*16,16,16, cityImage:getDimensions())	
+						rebelplayer.littlecityx = self.littlecityy
+						rebelplayer.littlecityy = self.littlecityy
+						rebelplayer.littlecityquad = love.graphics.newQuad(rebelplayer.littlecityx*16,rebelplayer.littlecityy*16,16,16, littlecityImage:getDimensions())
 					else
-						OwnerGrid[i][j]=rebelplayer.name
+						OwnerGrid[i][j]=rebelplayer.name  --next 4 lines give territory to the new player and turn it their color
 						ColorGrid[i][j][0]=ColorGrid[i][j][0]+reddelta
 						ColorGrid[i][j][1]=ColorGrid[i][j][1]+greendelta
 						ColorGrid[i][j][2]=ColorGrid[i][j][2]+bluedelta
@@ -95,7 +101,7 @@
 				end
 			end
 		end
-		maingame.PlayerCleanup(maingame)
+		maingame.PlayerCleanup(maingame) --cleanup
 		if (switch==true) then love.audio.play(rebellionsound) end
 	end
 	

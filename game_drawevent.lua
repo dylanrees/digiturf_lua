@@ -95,12 +95,17 @@ function Game.DrawEvent()
 	end
 
 	-- Draw leaderboard
-	for i=1, math.min(4,PlayerNumber) do
-		love.graphics.setColor(PlayerList[i].cityr,PlayerList[i].cityg,PlayerList[i].cityb,255)
-		love.graphics.draw(cityImage, PlayerList[i].cityquad, 300, 632+16*i)
-		love.graphics.draw(littlecityImage, PlayerList[i].littlecityquad, 300, 632+16*i)
-		love.graphics.setColor(PlayerList[i].red, PlayerList[i].green, PlayerList[i].blue, 255)
-		love.graphics.rectangle("fill", 316, 632+16*i, PlayerList[i].GetLandExtent(PlayerList[i]), 16 )
+	skipped = 0 --used to properly skip through dead players in the leaderboard
+	for i=1, math.min(4+skipped,PlayerNumber) do
+		if (PlayerList[i].alive==1) then
+			love.graphics.setColor(PlayerList[i].cityr,PlayerList[i].cityg,PlayerList[i].cityb,255)
+			love.graphics.draw(cityImage, PlayerList[i].cityquad, 300, 632+16*(i-skipped))
+			love.graphics.draw(littlecityImage, PlayerList[i].littlecityquad, 300, 632+16*(i-skipped))
+			love.graphics.setColor(PlayerList[i].red, PlayerList[i].green, PlayerList[i].blue, 255)
+			love.graphics.rectangle("fill", 316, 632+16*(i-skipped), PlayerList[i].GetLandExtent(PlayerList[i]), 16 )
+		else 
+			skipped = skipped+1
+		end
 	end
 
 end
