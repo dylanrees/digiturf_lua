@@ -1,68 +1,57 @@
 function love.load()
 
-require("player_obj")
-require("game_obj")
-require("title_obj")
-require("tile_functions")
+	require("player_obj")
+	require("game_obj")
+	require("title_obj")
+	require("tile_functions")
 
---Load sounds
-turfsound = love.audio.newSource("resources/turfsound.wav", "static")
-stealsound = love.audio.newSource("resources/stealsound.wav", "static")
-enemysound = love.audio.newSource("resources/enemysound.wav", "static")
-deathsound = love.audio.newSource("resources/deathsound.wav", "static")
-rebellionsound = love.audio.newSource("resources/rebellionsound.wav", "static")
+	--Load sounds
+	turfsound = love.audio.newSource("resources/turfsound.wav", "static")
+	stealsound = love.audio.newSource("resources/stealsound.wav", "static")
+	enemysound = love.audio.newSource("resources/enemysound.wav", "static")
+	deathsound = love.audio.newSource("resources/deathsound.wav", "static")
+	rebellionsound = love.audio.newSource("resources/rebellionsound.wav", "static")
 	
---Load greyscale images (and color images for tiles that have only one image)
-waterImage = love.graphics.newImage("water_tile.png")
-chaosImage = love.graphics.newImage("chaos_tile.png")
-lavaImage = love.graphics.newImage("lava_tile.png")
-radioactiveImage = love.graphics.newImage("radioactive_tile.png")
-forestImage = love.graphics.newImage("forest_tile.png")
-mountainImage = love.graphics.newImage("mountain_tile.png")
-grasslandImage = love.graphics.newImage("grassland_tile.png")
-desertImage = love.graphics.newImage("desert_tile.png")
-lightImage = love.graphics.newImage("light_tile.png")
-caveImage = love.graphics.newImage("cave_tile.png")
-tundraImage = love.graphics.newImage("tundra_tile.png")
-metalImage = love.graphics.newImage("metal_tile.png")
-darkImage = love.graphics.newImage("dark_tile.png")
-stoneheadImage = love.graphics.newImage("stonehead_tile.png")
-tallmountainImage = love.graphics.newImage("tallmountain_tile.png")
-strongholdImage = love.graphics.newImage("stronghold_tile.png")
+	--Load hazard image
+	hazardImage = love.graphics.newImage("resources/hazards.png")
+	--Hazard attribute array will store the quads according to index.
+	--Usage: 
+		--hazardAttr[i][0] stores the name 
+		--hazardAttr[i][1] stores the color quad
+		--hazardAttr[i][1] stores b+w quad
+	hazardAttr = {}
+	hazardAttr[1] = {}
+	hazardAttr[1][0] = tilenames[1]
+	hazardAttr[1][0] = love.graphics.newQuad(0,0,0,0, hazardImage:getDimensions()) -- the "nothing" hazard gets a dummy quad
+	hazardAttr[1][0] = love.graphics.newQuad(0,0,0,0, hazardImage:getDimensions())
+	for i = 2, table.getn(tilenames) do
+		hazardAttr[i] = {}
+		hazardAttr[i][0] = tilenames[i]
+		hazardAttr[i][1] = love.graphics.newQuad(((i-2)%8)*16,math.floor((i-2)/8)*16,16,16, hazardImage:getDimensions())
+		hazardAttr[i][2] = love.graphics.newQuad(((i-2)%8)*16+128,math.floor((i-2)/8)*16,16,16, hazardImage:getDimensions())
+	end
 
---Load color images
-grasslandImageColor = love.graphics.newImage("grassland_tile_color.png")
-forestImageColor = love.graphics.newImage("forest_tile_color.png")
-desertImageColor = love.graphics.newImage("desert_tile_color.png")
-mountainImageColor = love.graphics.newImage("mountain_tile_color.png")
-radioactiveImageColor = love.graphics.newImage("radioactive_tile_color.png")
-tundraImageColor = love.graphics.newImage("tundra_tile_color.png")
-metalImageColor = love.graphics.newImage("metal_tile_color.png")
-strongholdImageColor = love.graphics.newImage("stronghold_tile_color.png")
+	--Load city graphics
+	cityImage = love.graphics.newImage("resources/cities_big.png")
+	littlecityImage = love.graphics.newImage("resources/cities_little.png")
 
---Load city graphics
-cityImage = love.graphics.newImage("resources/cities_big.png")
-littlecityImage = love.graphics.newImage("resources/cities_little.png")
+	--flag image
+	flagImage = love.graphics.newImage("resources/flags.png")
+	--flag quads
+	flag_green = love.graphics.newQuad(0,0,16,16, flagImage:getDimensions())
+	flag_yellow = love.graphics.newQuad(16,0,16,16, flagImage:getDimensions())
+	flag_red = love.graphics.newQuad(32,0,16,16, flagImage:getDimensions())
 
---flag image
-flagImage = love.graphics.newImage("resources/flags.png")
---flag quads
-flag_green = love.graphics.newQuad(0,0,16,16, flagImage:getDimensions())
-flag_yellow = love.graphics.newQuad(16,0,16,16, flagImage:getDimensions())
-flag_red = love.graphics.newQuad(32,0,16,16, flagImage:getDimensions())
+	--figure out which resolutions are supported
+	modes = love.window.getFullscreenModes()
+	table.sort(modes, function(a, b) return a.width*a.height < b.width*b.height end)   -- sort from smallest to largest
+	--love.window.setMode(800,600, {fullscreen=true})
 
---figure out which resolutions are supported
-modes = love.window.getFullscreenModes()
-table.sort(modes, function(a, b) return a.width*a.height < b.width*b.height end)   -- sort from smallest to largest
---love.window.setMode(800,600, {fullscreen=true})
-
-
---create the title	
-maintitle = Title.new()
+	--create the title	
+	maintitle = Title.new()
 		
 end
 
- 
 function love.update(dt)
 
 	if (love.keyboard.isDown(" ")==true and maintitle.visible==true) then
@@ -95,7 +84,6 @@ end
 
 function love.draw()
 
-	
 	if (maintitle.visible==true) then
 		maintitle.DrawEvent(maintitle)
 	end

@@ -18,6 +18,27 @@ function GetDepop (xpos, ypos) --looks at the Hazard Grid to tell you whether a 
 	return answer
 end
 
+tilenames = {
+"nothing", 
+"water", 
+"chaos", 
+"lava", 
+"radioactive", 
+"forest", 
+"mountain", 
+"grassland", 
+"desert", 
+"light",
+"cave", 
+"tundra", 
+"metal", 
+"dark", 
+"stonehead", 
+"tallmountain", 
+"stronghold"}
+
+--total of 17
+
 function depop(xpos,ypos) -- depopulates a game square, returning it to non-ownership
 	OwnerGrid[xpos][ypos]="nobody"
 	ColorGrid[xpos][ypos][0] = 50

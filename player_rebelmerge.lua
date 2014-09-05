@@ -59,18 +59,18 @@
     end
 
 	function Player.RebellionSort(self) --checks to see whether a rebellion should happen
-		local locus = self.GetRebelLocus(self)
-		local RebellionFlag = false --flagged as true to trigger a rebellion
-			RebelColors = {} ; RebelColors[0] = ColorGrid[locus[1]][locus[2]][0] ; RebelColors[1] = ColorGrid[locus[1]][locus[2]][1] ; RebelColors[2] = ColorGrid[locus[1]][locus[2]][2]
-			for i = 0, xblocks-1 do
-				for j = 0, yblocks-1 do
-					local DiffToMain = math.abs(ColorGrid[i][j][0] - meancolor[0]) + math.abs(ColorGrid[i][j][1] - meancolor[1]) + math.abs(ColorGrid[i][j][2] - meancolor[2])
-					local DiffToLocus = math.abs(ColorGrid[i][j][0] - RebelColors[0]) + math.abs(ColorGrid[i][j][1] - RebelColors[1]) + math.abs(ColorGrid[i][j][2] - RebelColors[2])
-					if (DiffToMain>=DiffToLocus and (DiffToMain>8 or DiffToLocus>8)) then RebelGrid[i][j] = RebelGrid[i][j]+0.15 else RebelGrid[i][j] = math.max(RebelGrid[i][j]-1,0) end
-					if (RebelGrid[i][j]>=40) then RebellionFlag = true end
-				end
-			end
-		if (RebellionFlag == true) then self.rebellion(self) end
+	--	local locus = self.GetRebelLocus(self)
+	--	local RebellionFlag = false --flagged as true to trigger a rebellion
+	--		RebelColors = {} ; RebelColors[0] = ColorGrid[locus[1]][locus[2]][0] ; RebelColors[1] = ColorGrid[locus[1]][locus[2]][1] ; RebelColors[2] = ColorGrid[locus[1]][locus[2]][2]
+	--		for i = 0, xblocks-1 do
+	--			for j = 0, yblocks-1 do
+	--				local DiffToMain = math.abs(ColorGrid[i][j][0] - meancolor[0]) + math.abs(ColorGrid[i][j][1] - meancolor[1]) + math.abs(ColorGrid[i][j][2] - meancolor[2])
+	--				local DiffToLocus = math.abs(ColorGrid[i][j][0] - RebelColors[0]) + math.abs(ColorGrid[i][j][1] - RebelColors[1]) + math.abs(ColorGrid[i][j][2] - RebelColors[2])
+	--				if (DiffToMain>=DiffToLocus and (DiffToMain>8 or DiffToLocus>8)) then RebelGrid[i][j] = RebelGrid[i][j]+0.15 else RebelGrid[i][j] = math.max(RebelGrid[i][j]-1,0) end
+	--				if (RebelGrid[i][j]>=40) then RebellionFlag = true end
+	--			end
+	--		end
+	--	if (RebellionFlag == true) then self.rebellion(self) end
 		return RebelGrid
 	end	
 

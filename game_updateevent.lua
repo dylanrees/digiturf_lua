@@ -38,6 +38,13 @@ function Game.UpdateEvent()
 				end
 			end
 		end
+	
+		--rebel territory sort
+		if (PlayerList[i].alive==1) then --only do for each player if they're activated
+			RebelGrid = PlayerList[i].RebellionSort(PlayerList[i])
+		end	
+
+	
 	end
 	
 	--THIS IS FOR TESTING.  LETS YOU JUST MAKE PLAYERS
@@ -99,6 +106,23 @@ function Game.UpdateEvent()
 			end
 		end
 	end
+	
+	for k = 1, PlayerNumber do
+		for i = 0, xblocks-1 do
+			for j=0, yblocks-1 do
+				--Draw flags for the "rebel territories"
+				if (PlayerList[k].alive==1) then --only do for each player if they're activated
+					RebelGrid = PlayerList[k].RebellionSort(PlayerList[k])
+					--love.graphics.setColor(255,255,255,255)
+				--	if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 10) then love.graphics.draw(flagImage, flag_green, i*16, j*16) end
+				--	if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 20) then love.graphics.draw(flagImage, flag_yellow, i*16, j*16) end
+				--	if (OwnerGrid[i][j] == PlayerList[k].name and RebelGrid[i][j] >= 30) then love.graphics.draw(flagImage, flag_red, i*16, j*16) end
+				end
+
+			
+			end
+		end
+	end 
 	
 	maingame.PlayerCleanup(maingame)
 	
