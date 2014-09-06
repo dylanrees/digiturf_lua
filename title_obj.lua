@@ -10,8 +10,8 @@ function Title.new()
 	local self = setmetatable({}, Title)
 	self.visible=true
 	-- this is pretty much a placeholder
-	titleImage = love.graphics.newImage("title.png")
-	authorImage = love.graphics.newImage("author.png")
+	titleImage = love.graphics.newImage("resources/title.png")
+	authorImage = love.graphics.newImage("resources/author.png")
 	love.graphics.setBackgroundColor(128, 128, 128)
 	self.red1 = 0
 	self.green1 = 0
