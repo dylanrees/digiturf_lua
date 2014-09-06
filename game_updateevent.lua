@@ -38,6 +38,9 @@ function Game.UpdateEvent()
 				end
 			end
 		end
+		
+		--calculate "strength" of players
+		PlayerList[i].strength = PlayerList[i].GetLandExtent(PlayerList[i])
 	
 		--rebel territory sort
 		if (PlayerList[i].alive==1) then --only do for each player if they're activated
@@ -77,44 +80,60 @@ function Game.UpdateEvent()
 			for k=0,2 do
 				ColorGrid[i][j][k]=(ColorGrid[i][j][k]+CPweight*ColorPalette[k])/(CPweight*ColorPaletteNum+1)
 		
-			-- light tile effect
-			lightening = 0
-			if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="light") then lightening = lightening + love.math.random(5)/20 end end
-			if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="light") then lightening = lightening + love.math.random(5)/20 end end
-			if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="light") then lightening = lightening + love.math.random(5)/20 end end
-			if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="light") then lightening = lightening + love.math.random(5)/20 end end
-			ColorGrid[i][j][0] = ColorGrid[i][j][0] + lightening
-			ColorGrid[i][j][1] = ColorGrid[i][j][1] + lightening
-			ColorGrid[i][j][2] = ColorGrid[i][j][2] + lightening
+				-- light tile effect
+				lightening = 0
+				if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="light") then lightening = lightening + love.math.random(5)/20 end end
+				if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="light") then lightening = lightening + love.math.random(5)/20 end end
+				if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="light") then lightening = lightening + love.math.random(5)/20 end end
+				if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="light") then lightening = lightening + love.math.random(5)/20 end end
+				ColorGrid[i][j][0] = ColorGrid[i][j][0] + lightening
+				ColorGrid[i][j][1] = ColorGrid[i][j][1] + lightening
+				ColorGrid[i][j][2] = ColorGrid[i][j][2] + lightening
 		
-			-- dark tile effect
-			darkening = 0
-			if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="dark") then darkening = darkening + love.math.random(5)/20 end end
-			if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="dark") then darkening = darkening + love.math.random(5)/20 end end
-			if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="dark") then darkening = darkening + love.math.random(5)/20 end end
-			if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="dark") then darkening = darkening + love.math.random(5)/20 end end
-			ColorGrid[i][j][0] = ColorGrid[i][j][0] - darkening
-			ColorGrid[i][j][1] = ColorGrid[i][j][1] - darkening
-			ColorGrid[i][j][2] = ColorGrid[i][j][2] - darkening
+				-- dark tile effect
+				darkening = 0
+				if (i>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i-1][j]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+				if (i<xblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i+1][j]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+				if (j>0) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j-1]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+				if (j<yblocks-1) then if (OwnerGrid[i][j]~="nobody" and HazardGrid[i][j+1]=="dark") then darkening = darkening + love.math.random(5)/20 end end
+				ColorGrid[i][j][0] = ColorGrid[i][j][0] - darkening
+				ColorGrid[i][j][1] = ColorGrid[i][j][1] - darkening
+				ColorGrid[i][j][2] = ColorGrid[i][j][2] - darkening
+			
+			end
 		
 			--cave effect
 			if (i>0) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i-1][j]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
 			if (i<xblocks-1) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i+1][j]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
 			if (j>0) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i][j-1]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
 			if (j<yblocks-1) then if (IsSolid(i,j) == false and OwnerGrid[i][j]=="nobody" and HazardGrid[i][j+1]=="cave" and love.math.random(1,10000)==1) then player = maingame.CreateAnonPlayer(i,j, love.math.random(0,255), love.math.random(0,255), love.math.random(0,255)) end end
-		
+
+			--calculate average player position : part one (addition)
+			for k = 1, PlayerNumber do
+				if (OwnerGrid[i][j] == PlayerList[k].name) then
+					PlayerList[k].avgx = PlayerList[k].avgx + i
+					PlayerList[k].avgy = PlayerList[k].avgy + j		
+				end
 			end
+
 		end
 	end
 	
-
+	--calculate average player position : part two (division)
+	
+	for k = 1, PlayerNumber do
+		if (PlayerList[k].alive == 1) then
+			PlayerList[k].avgx = math.floor(PlayerList[k].avgx/PlayerList[k].GetLandExtent(PlayerList[k]))
+			PlayerList[k].avgy = math.floor(PlayerList[k].avgy/PlayerList[k].GetLandExtent(PlayerList[k]))
+		end
+	end
 	
 	maingame.PlayerCleanup(maingame)
 	
 	--HUD player ranking
 	
 	function scorecompare(a,b)
-		return a.GetLandExtent(a) > b.GetLandExtent(b) -- sort from largest to smallest
+		return a.strength > b.strength -- sort from largest to smallest
 	end
 
 	table.sort(PlayerList, scorecompare)

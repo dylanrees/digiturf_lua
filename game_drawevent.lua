@@ -78,6 +78,8 @@ function Game.DrawEvent()
 			love.graphics.draw(littlecityImage, PlayerList[i].littlecityquad, 300, 632+16*(i-skipped))
 			love.graphics.setColor(PlayerList[i].red, PlayerList[i].green, PlayerList[i].blue, 255)
 			love.graphics.rectangle("fill", 316, 632+16*(i-skipped), PlayerList[i].GetLandExtent(PlayerList[i]), 16 )
+			love.graphics.print(tostring(PlayerList[i].avgx),450,632+16*(i-skipped))
+			love.graphics.print(tostring(PlayerList[i].avgy),500,632+16*(i-skipped))
 		else 
 			skipped = skipped+1
 		end

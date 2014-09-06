@@ -37,7 +37,10 @@
 		self.QuickGrabBonus = love.math.random(1,10)/10 --bonus assigned to squares with a lower grab cost than default
 		self.QuickStealBonus = love.math.random(1,10)/10 --bonus assigned to squares with a higher steal cost than default
 		self.DepopPenalty = love.math.random(1,10)/10 --penalty for squares that depop
+		self.StrongPlayerVal = love.math.random(1,20)/10-1 --whether player builds toward or away from stronger players
+		
 		self.alive = 1 --whether or not the player is active.  Is switched to zero when the player loses all territory.
+		
 		self.originx = givex
 		self.originy = givey --starting place of the territory.  this tells you where to build your city.
 		
@@ -53,7 +56,11 @@
 		self.cityr = 30+love.math.random(225)
 		self.cityg = 30+love.math.random(225)
 		self.cityb = 30+love.math.random(225)
-		
+		-- strength factor (updated each game cycle; used to "size up" different players)
+		self.strength = 0
+		-- average position variables
+		self.avgx = 0
+		self.avgy = 0
 		
 		return self
 	end
@@ -119,13 +126,20 @@
 	end
 	
 	function Player.MarginalBenefit (self, xpos, ypos) --Analyzes the benefit of claiming a given square for player
-		local result = -100
+		local result = -1000
 		if (self.isAdjacent (self, xpos, ypos) and OwnerGrid[xpos][ypos] ~= self.name) then
 			result = self.TerritoryVal
 			if (OwnerGrid[xpos][ypos] ~= "nobody") then result = result+self.StealVal end
 			result = result - 0.5*self.NiceBorderVal*self.GetMarginalBorder(self, xpos, ypos) + 2 
 			- self.QuickGrabBonus*(15-GetGrabCost(xpos,ypos))/15 -self.QuickStealBonus*(GetStealCost(xpos,ypos)-60)/60
 			- (self.DepopPenalty*GetDepop(xpos,ypos))
+			
+			for k = 1, PlayerNumber do --loop that looks at all other players
+				if (PlayerList[k] ~= self) then		
+				result = result - (self.strength - PlayerList[k].strength)*self.StrongPlayerVal*math.abs(xpos - PlayerList[k].avgx)/10 - (self.strength - PlayerList[k].strength)*self.StrongPlayerVal*math.abs(ypos - PlayerList[k].avgy)/10
+				end
+			end
+			
 		end
 		return result
 	end
