@@ -1,5 +1,7 @@
 Digiturf is a little project I worked on for a while in Lua/Love2D.  I wanted to create a game that captured real-time strategy at its simplest and most fundamental level while also deconstructing the idea of the player as an immutable, monolithic entity.  In Digiturf, players are represented by a color within a contiguous territorial space.  However, just as any human society contains heterogeneity and conflict, the Digiturf player-entities have color variations within their territory, influenced by random fluctuations as well as things like proximity to other players and their colors.  If a particular area of a player territory becomes significantly different in color from the rest, it can splinter off and become its own NPC-controlled territory in the same manner that a portion of a sovereign nation might declare independence.
 
+I didn't complete the game or fully implement my ideas but have pasted what I had here.
+
 ==FINAL NAME OPTIONS==
 *digiturf
 *home.turf
